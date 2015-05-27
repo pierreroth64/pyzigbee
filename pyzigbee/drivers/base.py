@@ -15,16 +15,16 @@ class BaseDriver(object):
         self.is_open = False
 
     def on_open(self):
-        raise PyZigBeeOperationNotSupported("BaseDriver cannot be used directly: inherit from it")
+        raise PyZigBeeOperationNotSupported("on_open: This method must be implemented by your driver")
 
     def on_close(self):
-        raise PyZigBeeOperationNotSupported("BaseDriver cannot be used directly: inherit from it")
+        raise PyZigBeeOperationNotSupported("on_close: This method must be implemented by your driver")
 
     def on_write(self, data):
-        raise PyZigBeeOperationNotSupported("BaseDriver cannot be used directly: inherit from it")
+        raise PyZigBeeOperationNotSupported("on_write: This method must be implemented by your driver")
 
     def on_read(self, to_read):
-        raise PyZigBeeOperationNotSupported("BaseDriver cannot be used directly: inherit from it")
+        raise PyZigBeeOperationNotSupported("on_read: This method must be implemented by your driver")
 
     def open(self):
 
