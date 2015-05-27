@@ -24,7 +24,7 @@ class SerialDriver(BaseDriver):
 
     def _get_or_default(self, params, key, default=None):
 
-        return params['key'] if params.has_key('key') else default
+        return params[key] if key in params.keys() else default
 
     def on_open(self):
 
