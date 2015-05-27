@@ -5,43 +5,30 @@
 # All rights reserved
 
 from pyzigbee.core.exceptions import PyZigBeeDenied
+from pyzigbee.drivers.base import BaseDriver
 
-class DummyDriver:
+class DummyDriver(BaseDriver):
     """Dummy driver mainly used for testing
 
     When reading data, this driver returns the data written at previous write
     """
 
     def __init__(self, **kwargs):
-
-        self.is_open = False
+        super(DummyDriver, self).__init__(**kwargs)
         self.data = None
 
-    def open(self):
+    def on_open(self):
 
-        if not self.is_open:
-            self.is_open = True
-        else:
-            raise PyZigBeeDenied("Driver is already open")
+        pass
 
-    def close(self):
+    def on_close(self):
 
-        if self.is_open:
-            self.is_open = False
-        else:
-            raise PyZigBeeDenied("Driver is already closed")
+        pass
 
-
-    def write(self, data):
-
-        if not self.is_open:
-            raise PyZigBeeDenied("Driver is closed")
+    def on_write(self, data):
 
         self.data =  data
 
-    def read(self, to_read=10):
-
-        if not self.is_open:
-            raise PyZigBeeDenied("Driver is closed")
+    def on_read(self, to_read=10):
 
         return self.data

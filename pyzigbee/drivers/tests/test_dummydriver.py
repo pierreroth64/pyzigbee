@@ -36,3 +36,11 @@ class TestDummyDriver:
         self.drv.open()
         self.drv.close()
         assert_raises(PyZigBeeDenied, self.drv.close)
+
+    def test_write_read(self):
+        self.drv.open()
+        self.drv.write("my data")
+        assert "my data" == self.drv.read()
+
+        self.drv.write("another data")
+        assert "another data" == self.drv.read()

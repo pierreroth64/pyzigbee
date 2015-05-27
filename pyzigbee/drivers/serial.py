@@ -5,8 +5,9 @@
 # All rights reserved
 
 import serial
+from pyzigbee.drivers.base import BaseDriver
 
-class SerialDriver:
+class SerialDriver(BaseDriver):
     """Serial driver to communicate with underlying hardware
 
     keyword args are:
@@ -16,49 +17,31 @@ class SerialDriver:
 
     def __init__(self, **kwargs):
 
+        super(SerialDriver, self).__init__(kwargs=kwargs)
         self.port = self._get_or_default(kwargs, 'port', '/dev/ttymxc3')
         self.baudrate = self._get_or_default(kwargs, 'baudrate', 115200)
-        self.parity = self._get_or_default(kwargs, 'parity', serial.PARITY_NONE)
-        self.is_open = False
         self.serial = None
 
     def _get_or_default(self, params, key, default=None):
 
         return params['key'] if params.has_key('key') else default
 
+    def on_open(self):
 
-    def open(self):
+        self.serial = serial.Serial(port=self.port, baudrate=self.baudrate,
+                                    timeout=2, writeTimeout=2)
+    def on_close(self):
 
-        if not self.is_open:
-            self.serial = serial.Serial(port=self.port, baudrate=self.baudrate, parity=self.parity
-                                        timeout=2, writeTimeout=2)
-            self.is_open = True
-        else:
-            raise PyZigBeeDenied("Driver is already open")
+        self.serial = None
 
-    def close(self):
-
-        if self.is_open:
-            self.serial = None
-            self.is_open = False
-        else:
-            raise PyZigBeeDenied("Driver is already closed")
-
-
-    def write(self, data):
-
-        if not self.is_open:
-            raise PyZigBeeDenied("Driver is closed")
+    def on_write(self, data):
 
         try:
             self.serial.write(data)
         except serial.SerialTimeoutException:
             raise PyZigBeeTimedOut("Timeout when writing to device")
 
-    def read(self, to_read=10):
-
-        if not self.is_open:
-            raise PyZigBeeDenied("Driver is closed")
+    def on_read(self, to_read=10):
 
         read_bytes = self.serial.read(size=to_read)
         return read_bytes
