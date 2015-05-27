@@ -7,4 +7,6 @@ python:
   - "3.4"
 install:
   - pip install -r requirements.txt
-script: nosetests
+script:
+  - nosetests
+  - cd docs && make html
