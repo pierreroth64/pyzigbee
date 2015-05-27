@@ -7,11 +7,11 @@
 """This module contains all the exceptions that may raise
     when using the pyzigbee library"""
 
-class PyZigbeeException(Exception):
+class PyZigBeeException(Exception):
     """Base class for pyzigbee exceptions"""
 
     def __init__(self, msg, detail=None):
-        super(PyZigbeeException, self).__init__(msg)
+        super(PyZigBeeException, self).__init__(msg)
         self.msg = msg
         self.detail = detail
 
