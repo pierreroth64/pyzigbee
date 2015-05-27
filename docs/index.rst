@@ -6,10 +6,15 @@
 Welcome to pyzigbee's documentation!
 ====================================
 
+Version: |release|
+
 Contents:
 
 .. toctree::
    :maxdepth: 2
+
+   intro
+   arch
 
 
 
