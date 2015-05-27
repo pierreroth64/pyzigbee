@@ -30,7 +30,7 @@ class GatewayFactory:
     @staticmethod
     def create_gateway(ref):
 
-        if SUPPORTED_GW.has_key(ref):
+        if ref in SUPPORTED_GW.keys():
             driver = SUPPORTED_GW[ref]['driver']['class'](**SUPPORTED_GW[ref]['driver']['args'])
             protocol = SUPPORTED_GW[ref]['protocol']['class']()
             return Gateway(driver, protocol)
