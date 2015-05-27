@@ -8,7 +8,7 @@ from pyzigbee.core.exceptions import PyZigBeeBadArgument
 from pyzigbee.drivers.base import BaseDriver
 from pyzigbee.protocols.base import BaseProtocol
 
-class Gateway:
+class Gateway(object):
     """Gateway base class to be inherited from when implementing a real GW
     """
 
