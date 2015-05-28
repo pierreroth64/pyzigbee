@@ -33,7 +33,7 @@ Here are the steps to install Qt and PyQt on Linux:
     sudo apt-get install python-dev
 
 * Install Qt5: download and run the Qt installer
-* Install SIP: download it here
+* Install SIP: download it `here <http://www.riverbankcomputing.com/software/sip/download/>`_
 
 ::
 
@@ -48,7 +48,7 @@ Here are the steps to install Qt and PyQt on Linux:
 
   sudo apt-get install qt5-default.
 
-* Install PyQt: download it here
+* Install PyQt: download it `here <http://www.riverbankcomputing.com/software/pyqt/download5/>`_
 
 ::
 
@@ -57,3 +57,10 @@ Here are the steps to install Qt and PyQt on Linux:
   python configure
   make
   sudo make install
+
+* Finally, run the application
+
+::
+
+  cd pyzigbee/gui
+  ./pyzigbeegui.py &
