@@ -4,7 +4,7 @@
 # Copyright (C) 2015 Legrand France
 # All rights reserved
 
-from pyzigbee.protocols.base import BaseProtocol
+from pyzigbee.protocols.baseprotocol import BaseProtocol
 
 class DummyProtocol(BaseProtocol):
     """Dummy protocol mainly used for testing

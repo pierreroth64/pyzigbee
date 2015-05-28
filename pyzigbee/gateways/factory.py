@@ -6,11 +6,12 @@
 
 from pyzigbee.core.exceptions import PyZigBeeBadArgument
 from pyzigbee.protocols.openwebnet import OWNProtocol
-from pyzigbee.drivers.serial import SerialDriver
+from pyzigbee.drivers.serialdriver import SerialDriver
 from pyzigbee.gateways.gateway import Gateway
 
 SUPPORTED_GW = {
     '088328': {
+        'description': "088328 USB/Zigbee dongle",
         'protocol': {
             'class': OWNProtocol,
         },
@@ -31,9 +32,17 @@ class GatewayFactory:
     def create_gateway(ref):
 
         if ref in SUPPORTED_GW.keys():
-            driver = SUPPORTED_GW[ref]['driver']['class'](**SUPPORTED_GW[ref]['driver']['args'])
-            protocol = SUPPORTED_GW[ref]['protocol']['class']()
-            return Gateway(driver, protocol)
+            try:
+                driver = SUPPORTED_GW[ref]['driver']['class'](**SUPPORTED_GW[ref]['driver']['args'])
+                protocol = SUPPORTED_GW[ref]['protocol']['class']()
+                description = SUPPORTED_GW[ref]['description']
+                return Gateway(driver, protocol, description)
+            except KeyError:
+                raise PyZigBeeBadFormatError("Entry for %s is malformed" % ref)
         else:
             raise PyZigBeeBadArgument("%s is not supported" % ref)
 
+
+    @staticmethod
+    def get_supported_refs(ref):
+        return SUPPORTED_GW.keys()

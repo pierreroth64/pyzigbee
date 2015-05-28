@@ -5,16 +5,17 @@
 # All rights reserved
 
 from pyzigbee.core.exceptions import PyZigBeeBadArgument
-from pyzigbee.drivers.base import BaseDriver
-from pyzigbee.protocols.base import BaseProtocol
+from pyzigbee.drivers.basedriver import BaseDriver
+from pyzigbee.protocols.baseprotocol import BaseProtocol
 
 class Gateway(object):
     """Gateway base class to be inherited from when implementing a real GW
     """
 
-    def __init__(self, driver, protocol):
+    def __init__(self, driver, protocol, description=""):
         self.set_driver(driver)
         self.set_protocol(protocol)
+        self.description = description
 
     def set_driver(self, driver):
 
@@ -29,6 +30,9 @@ class Gateway(object):
             self.protocol = protocol
         else:
             raise PyZigBeeBadArgument("%s is not a subclass of BaseProtocol" % protocol)
+
+    def get_description(self):
+        return self.description
 
     def open(self):
         self.driver.open()

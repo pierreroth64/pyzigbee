@@ -7,7 +7,7 @@ from nose.tools import assert_raises, assert_true, assert_equal, assert_not_equa
 
 from pyzigbee.core.exceptions import PyZigBeeDenied, PyZigBeeBadArgument
 from pyzigbee.gateways.gateway import Gateway
-from pyzigbee.drivers.dummy import DummyDriver
+from pyzigbee.drivers.dummydriver import DummyDriver
 from pyzigbee.protocols.dummy import DummyProtocol
 from pyzigbee.protocols.openwebnet import OWNProtocol
 

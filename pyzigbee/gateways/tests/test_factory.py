@@ -7,7 +7,7 @@ from nose.tools import assert_raises, assert_true
 
 from pyzigbee.core.exceptions import PyZigBeeBadArgument
 from pyzigbee.gateways.factory import GatewayFactory
-from pyzigbee.drivers.serial import SerialDriver
+from pyzigbee.drivers.serialdriver import SerialDriver
 from pyzigbee.protocols.openwebnet import OWNProtocol
 
 class TestFactory:

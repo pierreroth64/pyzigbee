@@ -5,7 +5,10 @@
 # All rights reserved
 
 import serial
-from pyzigbee.drivers.base import BaseDriver
+import logging
+
+from pyzigbee.core.exceptions import PyZigBeeFailed
+from pyzigbee.drivers.basedriver import BaseDriver
 
 class SerialDriver(BaseDriver):
     """Serial driver to communicate with underlying hardware
@@ -20,7 +23,8 @@ class SerialDriver(BaseDriver):
         super(SerialDriver, self).__init__(kwargs=kwargs)
         self.port = self._get_or_default(kwargs, 'port', '/dev/ttymxc3')
         self.baudrate = self._get_or_default(kwargs, 'baudrate', 115200)
-        self.serial = None
+        self.dev = None
+        self.logger = logging.getLogger(__name__)
 
     def _get_or_default(self, params, key, default=None):
 
@@ -28,20 +32,25 @@ class SerialDriver(BaseDriver):
 
     def on_open(self):
 
-        self.serial = serial.Serial(port=self.port, baudrate=self.baudrate,
-                                    timeout=2, writeTimeout=2)
+        try:
+            self.logger.debug("opening serial port %s..." % self.port)
+            self.dev = serial.Serial(port=self.port, baudrate=self.baudrate)
+            self.logger.debug("serial port %s open" % self.port)
+        except OSError, error:
+            raise PyZigBeeFailed(msg="Failed to open serial port %s" % self.port)
+
     def on_close(self):
 
-        self.serial = None
+        self.dev = None
 
     def on_write(self, data):
 
         try:
-            self.serial.write(data)
+            self.dev.write(data)
         except serial.SerialTimeoutException:
             raise PyZigBeeTimedOut("Timeout when writing to device")
 
     def on_read(self, to_read=10):
 
-        read_bytes = self.serial.read(size=to_read)
+        read_bytes = self.dev.read(size=to_read)
         return read_bytes
