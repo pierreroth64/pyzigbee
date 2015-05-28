@@ -36,7 +36,7 @@ class SerialDriver(BaseDriver):
             self.logger.debug("opening serial port %s...", self.port)
             self.dev = serial.Serial(port=self.port, baudrate=self.baudrate)
             self.logger.debug("serial port %s open", self.port)
-        except OSError, error:
+        except OSError as error:
             self.logger.error('error when opening serial port %s (%s)', self.port, error)
             raise PyZigBeeFailed(msg="Failed to open serial port %s" % self.port)
 
