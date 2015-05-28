@@ -44,5 +44,9 @@ class GatewayFactory:
 
 
     @staticmethod
-    def get_supported_refs(ref):
-        return SUPPORTED_GW.keys()
+    def get_supported_refs():
+
+        supported = {}
+        for gw_k, gw_v in SUPPORTED_GW.items():
+            supported[gw_k] = gw_v['description']
+        return supported

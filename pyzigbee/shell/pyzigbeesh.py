@@ -23,20 +23,26 @@ class PyZigBeeShell(cmd.Cmd):
     prompt = '(pyzigbeesh) '
     gateway = GatewayFactory.create_gateway("088328")
     logger = logging.getLogger(__name__)
+    pp = pprint.PrettyPrinter(indent=4)
 
     @handle_exception
     def do_gw_info(self, arg):
         'Print current information about the current gateway'
-        pp = pprint.PrettyPrinter(indent=4)
-        pp.pprint(self.gateway.get_info())
+        self.pp.pprint(self.gateway.get_info())
+
+    @handle_exception
+    def do_gw_supported(self, arg):
+        'Print list of currently supported gateways'
+        self.pp.pprint(GatewayFactory.get_supported_refs())
 
     @handle_exception
     def do_scan(self, arg):
         'Scan the network and print the found zigbee devices'
-        self.logger.debug('scanning...')
+        self.logger.info('scanning...')
         self.gateway.open()
         ids = self.gateway.scan()
         self.gateway.close()
+        self.logger.info('scan completed.')
         print ids
 
 if __name__ == '__main__':
