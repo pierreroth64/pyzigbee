@@ -21,8 +21,9 @@ class SerialDriver(BaseDriver):
     def __init__(self, **kwargs):
 
         super(SerialDriver, self).__init__(kwargs=kwargs)
-        self.port = self._get_or_default(kwargs, 'port', '/dev/ttymxc3')
+        self.port = self._get_or_default(kwargs, 'port', '/dev/ttyUSB0')
         self.baudrate = self._get_or_default(kwargs, 'baudrate', 115200)
+        self.parity = self._get_or_default(kwargs, 'parity', 'N')
         self.dev = None
         self.logger = logging.getLogger(__name__)
 
@@ -34,7 +35,7 @@ class SerialDriver(BaseDriver):
 
         try:
             self.logger.debug("opening serial port %s...", self.port)
-            self.dev = serial.Serial(port=self.port, baudrate=self.baudrate)
+            self.dev = serial.Serial(port=self.port, baudrate=self.baudrate, parity=self.parity)
             self.logger.debug("serial port %s open", self.port)
         except OSError as error:
             self.logger.error('error when opening serial port %s (%s)', self.port, error)
@@ -55,3 +56,12 @@ class SerialDriver(BaseDriver):
 
         read_bytes = self.dev.read(size=to_read)
         return read_bytes
+
+    def get_info(self):
+
+        info = { "description": "Serial driver",
+                 "port": self.port,
+                 "baudrate": self.baudrate,
+                 "parity": self.parity,
+               }
+        return info

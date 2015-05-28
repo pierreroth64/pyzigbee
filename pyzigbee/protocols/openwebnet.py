@@ -21,3 +21,9 @@ class OWNProtocol(BaseProtocol):
         """Return a list of Zigbee IDs retrieved from the network"""
 
         return [1234, 1521, 1230]
+
+    def get_info(self):
+
+        info = { "description": "OpenWebNet protocol",
+               }
+        return info

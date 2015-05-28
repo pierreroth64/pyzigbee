@@ -4,10 +4,19 @@
 # Copyright (C) 2015 Legrand France
 # All rights reserved
 
-import cmd, sys, logging
+import cmd, sys, logging, pprint
 from optparse import OptionParser
 
 from pyzigbee.gateways.factory import GatewayFactory
+from pyzigbee.core.exceptions import PyZigBeeException
+
+def handle_exception(func):
+    def inner(*args, **kwargs):
+        try:
+            return func(*args, **kwargs) #2
+        except PyZigBeeException as error:
+            print "Error:", error.msg
+    return inner
 
 class PyZigBeeShell(cmd.Cmd):
     intro = 'Welcome to the PyZigBee shell. Type help or ? to list commands.\n'
@@ -15,11 +24,13 @@ class PyZigBeeShell(cmd.Cmd):
     gateway = GatewayFactory.create_gateway("088328")
     logger = logging.getLogger(__name__)
 
-    # ----- basic turtle commands -----
+    @handle_exception
     def do_gw_info(self, arg):
         'Print current information about the current gateway'
-        print self.gateway.get_description()
+        pp = pprint.PrettyPrinter(indent=4)
+        pp.pprint(self.gateway.get_info())
 
+    @handle_exception
     def do_scan(self, arg):
         'Scan the network and print the found zigbee devices'
         self.logger.debug('scanning...')

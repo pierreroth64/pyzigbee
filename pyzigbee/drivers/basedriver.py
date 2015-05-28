@@ -55,3 +55,8 @@ class BaseDriver(object):
             raise PyZigBeeDenied("Driver is closed")
 
         return self.on_read(to_read)
+
+    def get_info(self):
+
+        raise PyZigBeeOperationNotSupported("get_info: This method must be implemented by your driver")
+

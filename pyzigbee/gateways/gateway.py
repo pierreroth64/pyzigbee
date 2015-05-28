@@ -31,8 +31,13 @@ class Gateway(object):
         else:
             raise PyZigBeeBadArgument("%s is not a subclass of BaseProtocol" % protocol)
 
-    def get_description(self):
-        return self.description
+    def get_info(self):
+
+        info = {}
+        info['description'] = self.description
+        info['driver'] = self.driver.get_info()
+        info['protocol'] = self.protocol.get_info()
+        return info
 
     def open(self):
         self.driver.open()

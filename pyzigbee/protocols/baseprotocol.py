@@ -16,10 +16,13 @@ class BaseProtocol(object):
     def encode_scan(self):
         """Return an encoded frame to be sent to driver for scanning the Zigbee network"""
 
-        raise PyZigBeeOperationNotSupported("encode_scan: This method must be implemented by your driver")
+        raise PyZigBeeOperationNotSupported("encode_scan: This method must be implemented by your protocol")
 
     def decode_scan(self, data):
         """Return a list of Zigbee IDs retrieved from the received data"""
 
-        raise PyZigBeeOperationNotSupported("decode_scan: This method must be implemented by your driver")
+        raise PyZigBeeOperationNotSupported("decode_scan: This method must be implemented by your protocol")
 
+    def get_info(self):
+
+        raise PyZigBeeOperationNotSupported("get_info: This method must be implemented by your protocol")

@@ -32,3 +32,10 @@ class DummyDriver(BaseDriver):
     def on_read(self, to_read=10):
 
         return self.data
+
+    def get_info(self):
+
+        info = { "description": "Dummy driver (reading from it what you previously wrote to it)",
+               }
+        return info
+

@@ -19,7 +19,7 @@ SUPPORTED_GW = {
             'class': SerialDriver,
             'args': {
                 'port': '/dev/ttyUSB0',
-                'baudrate': 115200,
+                'baudrate': 19200,
             },
         },
     },
