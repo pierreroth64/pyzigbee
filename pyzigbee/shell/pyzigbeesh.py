@@ -49,12 +49,19 @@ class PyZigBeeShell(cmd.Cmd):
     def do_scan(self, arg):
         """Scan the network and print the found zigbee devices"""
 
-        self.logger.info('scanning...')
         self.gateway.open()
         ids = self.gateway.scan()
         self.gateway.close()
-        self.logger.info('scan completed.')
         print ids
+
+    @handle_exception
+    def do_gw_version(self, arg):
+        """Request the gateway for its firmware version"""
+
+        self.gateway.open()
+        version = self.gateway.get_version()
+        self.gateway.close()
+        print version
 
 if __name__ == '__main__':
 

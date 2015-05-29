@@ -28,7 +28,7 @@ class OWNProtocol(BaseProtocol):
 
         return [ { "tx": "*13*65*##" },
                  { "rx": "*#*1##" },
-                 { "delay": 13 },
+                 { "delay": 5 },
                  { "answer": ""} ]
 
     def decode_dev_number(self, data):
@@ -45,17 +45,33 @@ class OWNProtocol(BaseProtocol):
     def encode_get_dev_id(self, dev_index):
         """Build the frames sequence to get the device ID from a gievn device index"""
 
-        return [ { "tx": "*#13**73#%d##" % dev_index},
-                 { "rx": "*#*1##" },
+        return [ { "tx": "*#13**66#%d##" % dev_index},
                  { "answer": ""} ]
 
     def decode_dev_id(self, data):
         """Decode the given data to find the device ID"""
 
-        m = re.match("\*\#13\*(\S+)\#9\*73\#\S+\#\#", data)
+        m = re.match("\*\#13\*(.*)\#.*\#.*\#\#", data)
         if m is not None:
             dev_id = m.group(1)
             self.logger.debug("device ID: %s", dev_id)
             return dev_id
         else:
             raise PyZigBeeBadFormatError("OWN: could not extract device ID from frame: %s" % data)
+
+    def encode_get_version(self):
+        """Build the frames sequence to get the firmware version of the gateway"""
+
+        return [ { "tx": "*#13**16##" },
+                 { "answer": ""} ]
+
+    def decode_version(self, data):
+        """Decode the given data to find the gateway firmware version"""
+
+        m = re.match("\*\#13\*\*16\*(\S+)\*(\S+)\*(\S+)\#\#", data)
+        if m is not None:
+            version = m.group(1) + "." + m.group(2) + "." + m.group(3)
+            self.logger.debug("gateway version: %s", version)
+            return version
+        else:
+            raise PyZigBeeBadFormatError("OWN: could not extract gateway version from frame: %s" % data)

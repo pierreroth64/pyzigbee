@@ -36,3 +36,11 @@ class DummyProtocol(BaseProtocol):
     def decode_dev_id(self, data):
 
         return "45600021"
+
+    def encode_get_version(self):
+
+        return []
+
+    def decode_version(self, data):
+
+        return "1.0.0"

@@ -24,5 +24,9 @@ class TestOWNProtocol:
 
     def test_decode_dev_number(self):
 
-        assert_equal("47485500", self.protocol.decode_dev_id("*#13*47485500#9*73#0##"))
+        assert_equal("709138701", self.protocol.decode_dev_id("*#13*709138701#9*66#0*256##"))
+
+    def test_decode_version(self):
+
+        assert_equal("1.2.3", self.protocol.decode_version("*#13**16*1*2*3##"))
 

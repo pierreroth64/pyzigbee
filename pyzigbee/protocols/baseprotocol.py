@@ -36,3 +36,11 @@ class BaseProtocol(object):
     def decode_dev_id(self, data):
 
         raise PyZigBeeOperationNotSupported("decode_dev_id: This method must be implemented by your protocol")
+
+    def encode_get_version(self):
+
+        raise PyZigBeeOperationNotSupported("encode_get_version: This method must be implemented by your protocol")
+
+    def decode_version(self, data):
+
+        raise PyZigBeeOperationNotSupported("decode_version: This method must be implemented by your protocol")

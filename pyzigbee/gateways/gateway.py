@@ -44,6 +44,12 @@ class Gateway(object):
         info['protocol'] = self.protocol.get_info()
         return info
 
+    def get_version(self):
+
+        sequence = self.protocol.encode_get_version()
+        answer = self._get_answer(sequence)
+        return self.protocol.decode_version(answer)
+
     def open(self):
 
         self.driver.open()
