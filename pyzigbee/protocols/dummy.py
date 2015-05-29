@@ -15,7 +15,7 @@ class DummyProtocol(BaseProtocol):
 
     def get_info(self):
 
-        return return { "description": "Dummy protocol" }
+        return { "description": "Dummy protocol" }
 
     def get_end_of_frame_sep(self):
         return "|"
