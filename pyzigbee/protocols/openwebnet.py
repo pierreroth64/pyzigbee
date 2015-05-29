@@ -26,7 +26,7 @@ class OWNProtocol(BaseProtocol):
     def encode_get_dev_number(self):
         sequence = [ { "tx": "*13*65*##" },
                      { "rx": "*#*1##" },
-                     { "delay": 5 },
+                     { "delay": 13 },
                      { "answer": ""}
                    ]
         return sequence
@@ -35,7 +35,7 @@ class OWNProtocol(BaseProtocol):
         m = re.match("\*\#13\*\*67\*(\S+)\#\#", data)
         if m is not None:
             dev_nb = int(m.group(1))
-            self.logger.debug("device number: %d", dev_nb)
+            self.logger.debug("number of devices: %d", dev_nb)
             return dev_nb
         else:
             raise PyZigBeeBadFormatError("OWN: could not extract device number from frame: %s" % data)
