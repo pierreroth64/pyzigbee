@@ -22,7 +22,7 @@ class PyZigBeeShell(cmd.Cmd):
     intro = 'Welcome to the PyZigBee shell. Type help or ? to list commands.\n'
     prompt = '(pyzigbeesh) '
     gateway = GatewayFactory.create_gateway("088328")
-    logger = logging.getLogger(__name__)
+    logger = logging.getLogger("pyzigbee.shell")
     pp = pprint.PrettyPrinter(indent=4)
 
     @handle_exception
@@ -52,5 +52,6 @@ if __name__ == '__main__':
                       help="set log level to LEVEL", metavar="LEVEL")
     (options, args) = parser.parse_args()
     level = int(options.debug_level) if options.debug_level else logging.INFO
-    logging.basicConfig(level=level)
+    format = '%(asctime)s:%(name)s:%(levelname)s: %(message)s'
+    logging.basicConfig(level=level, format=format)
     PyZigBeeShell().cmdloop()
