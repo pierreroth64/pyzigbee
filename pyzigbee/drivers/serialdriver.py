@@ -63,12 +63,12 @@ class SerialDriver(BaseDriver):
         else:
             if stop_on is not None:
                 stop_pattern = re.escape(stop_on)
-                self.logger.debug("next read will stop when receiving: %s (re compiled: %s)", stop_on, stop_pattern)
+                #self.logger.debug("next read will stop when receiving: %s", stop_on)
                 endof = False
                 while not endof:
                     byte = self.dev.read(size=1)
                     data += byte
-                    self.logger.debug("received byte: %s", byte)
+                    #self.logger.debug("received byte: %s", byte)
                     if re.match(".*%s" % stop_pattern, data):
                         endof = True
             else:
