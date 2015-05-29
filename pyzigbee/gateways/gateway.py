@@ -61,7 +61,9 @@ class Gateway(object):
                     raise PyZigBeeBadFormatError("Frame error: received '%s' when " \
                                                   "expected was '%s'" % (data, seq["rx"]))
             if "delay" in seq.keys():
-                time.sleep(int(seq["delay"]))
+                delay = int(seq["delay"])
+                self.logger.debug("sleeping for %d seconds...", delay)
+                time.sleep(delay)
             if "answer" in seq.keys():
                 answer = self.driver.read(stop_on=self.protocol.get_end_of_frame_sep())
 
@@ -73,11 +75,12 @@ class Gateway(object):
     def scan(self):
         """Scan the network and return a list of ZigBee IDs"""
 
-        self.logger.debug("getting device number...")
+        self.logger.info("start scanning...")
+        self.logger.debug("getting number of devices...")
         sequence = self.protocol.encode_get_dev_number()
         answer = self._get_answer(sequence)
         dev_nb = self.protocol.decode_dev_number(answer)
-        self.logger.debug("device number: %d", dev_nb)
+        self.logger.debug("%d device(s) on the network", dev_nb)
 
         dev_ids = []
         # we can now loop over the devices
@@ -89,4 +92,6 @@ class Gateway(object):
             self.logger.debug("device ID at index %d: %s", i, dev_id)
             dev_ids.append(dev_id)
 
+        self.logger.info("end of scan.")
         return dev_ids
+
