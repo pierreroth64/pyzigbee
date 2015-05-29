@@ -69,7 +69,7 @@ if __name__ == '__main__':
     parser.add_option("-d", "--debug", dest="debug_level",
                       help="set log level to LEVEL", metavar="LEVEL")
     (options, args) = parser.parse_args()
-    level = int(options.debug_level) if options.debug_level else logging.INFO
+    level = int(options.debug_level) if options.debug_level is not None else logging.CRITICAL
     format = '%(asctime)s:%(name)s:%(levelname)s: %(message)s'
     logging.basicConfig(level=level, format=format)
     PyZigBeeShell().cmdloop()
