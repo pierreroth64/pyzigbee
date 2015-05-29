@@ -6,6 +6,7 @@
 
 import serial
 import logging
+import re
 
 from pyzigbee.core.exceptions import PyZigBeeFailed
 from pyzigbee.drivers.basedriver import BaseDriver
@@ -35,7 +36,8 @@ class SerialDriver(BaseDriver):
 
         try:
             self.logger.debug("opening serial port %s...", self.port)
-            self.dev = serial.Serial(port=self.port, baudrate=self.baudrate, parity=self.parity)
+            self.dev = serial.Serial(port=self.port, baudrate=self.baudrate, parity=self.parity,
+                                     timeout=3)
             self.logger.debug("serial port %s open", self.port)
         except OSError as error:
             self.logger.error('error when opening serial port %s (%s)', self.port, error)
@@ -48,14 +50,32 @@ class SerialDriver(BaseDriver):
     def on_write(self, data):
 
         try:
+            self.logger.debug("write data: %s", data)
             self.dev.write(data)
         except serial.SerialTimeoutException:
             raise PyZigBeeTimedOut("Timeout when writing to device")
 
-    def on_read(self, to_read=10):
+    def on_read(self, to_read=None, stop_on="None"):
 
-        read_bytes = self.dev.read(size=to_read)
-        return read_bytes
+        data = ""
+        if to_read is not None:
+            data = self.dev.read(size=to_read)
+        else:
+            if stop_on is not None:
+                stop_pattern = re.escape(stop_on)
+                self.logger.debug("next read will stop when receiving: %s (re compiled: %s)", stop_on, stop_pattern)
+                endof = False
+                while not endof:
+                    byte = self.dev.read(size=1)
+                    data += byte
+                    self.logger.debug("received byte: %s", byte)
+                    if re.match(".*%s" % stop_pattern, data):
+                        endof = True
+            else:
+                data = self.dev.read()
+
+        self.logger.debug("read data: %s", data)
+        return data
 
     def get_info(self):
 

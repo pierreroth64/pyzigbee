@@ -17,6 +17,10 @@ class DummyDriver(BaseDriver):
         super(DummyDriver, self).__init__(**kwargs)
         self.data = None
 
+    def get_info(self):
+
+        return{ "description": "Dummy driver (reading from it what you previously wrote to it)" }
+
     def on_open(self):
 
         pass
@@ -29,13 +33,8 @@ class DummyDriver(BaseDriver):
 
         self.data =  data
 
-    def on_read(self, to_read=10):
+    def on_read(self, to_read=None, stop_on=None):
 
         return self.data
 
-    def get_info(self):
-
-        info = { "description": "Dummy driver (reading from it what you previously wrote to it)",
-               }
-        return info
 

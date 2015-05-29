@@ -4,7 +4,10 @@
 # Copyright (C) 2015 Legrand France
 # All rights reserved
 
-from pyzigbee.core.exceptions import PyZigBeeBadArgument
+import time
+import logging
+
+from pyzigbee.core.exceptions import *
 from pyzigbee.drivers.basedriver import BaseDriver
 from pyzigbee.protocols.baseprotocol import BaseProtocol
 
@@ -16,6 +19,7 @@ class Gateway(object):
         self.set_driver(driver)
         self.set_protocol(protocol)
         self.description = description
+        self.logger = logging.getLogger(__name__)
 
     def set_driver(self, driver):
 
@@ -45,9 +49,44 @@ class Gateway(object):
     def close(self):
         self.driver.close()
 
+    def _get_answer(self, sequence):
+
+        answer =  None
+        for seq in sequence:
+            if "tx" in seq.keys():
+                self.driver.write(seq["tx"])
+            if "rx" in seq.keys():
+                data = self.driver.read(to_read=len(seq["rx"]))
+                if data != seq["rx"]:
+                    raise PyZigBeeBadFormatError("Frame error: received '%s' when " \
+                                                  "expected was '%s'" % (data, seq["rx"]))
+            if "delay" in seq.keys():
+                time.sleep(int(seq["delay"]))
+            if "answer" in seq.keys():
+                answer = self.driver.read(stop_on=self.protocol.get_end_of_frame_sep())
+
+        if answer is not None:
+            return answer
+        else:
+            raise PyZigBeeFailed("Device did not reply")
+
     def scan(self):
         """Scan the network and return a list of ZigBee IDs"""
 
-        self.driver.write(self.protocol.encode_scan())
-        data = self.driver.read()
-        return self.protocol.decode_scan(data)
+        self.logger.debug("getting device number...")
+        sequence = self.protocol.encode_get_dev_number()
+        answer = self._get_answer(sequence)
+        dev_nb = self.protocol.decode_dev_number(answer)
+        self.logger.debug("device number: %d", dev_nb)
+
+        dev_ids = []
+        # we can now loop over the devices
+        for i in range(0, dev_nb):
+            self.logger.debug("getting device ID at index %d...", i)
+            sequence = self.protocol.encode_get_dev_id(dev_index=i)
+            answer = self._get_answer(sequence)
+            dev_id = self.protocol.decode_dev_id(answer)
+            self.logger.debug("device ID at index %d: %s", i, dev_id)
+            dev_ids.append(dev_id)
+
+        return dev_ids

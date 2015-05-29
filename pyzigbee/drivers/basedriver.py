@@ -23,7 +23,7 @@ class BaseDriver(object):
     def on_write(self, data):
         raise PyZigBeeOperationNotSupported("on_write: This method must be implemented by your driver")
 
-    def on_read(self, to_read):
+    def on_read(self, to_read, stop_on):
         raise PyZigBeeOperationNotSupported("on_read: This method must be implemented by your driver")
 
     def open(self):
@@ -49,12 +49,12 @@ class BaseDriver(object):
 
         self.on_write(data)
 
-    def read(self, to_read=10):
+    def read(self, to_read=None, stop_on=None):
 
         if not self.is_open:
             raise PyZigBeeDenied("Driver is closed")
 
-        return self.on_read(to_read)
+        return self.on_read(to_read=to_read, stop_on=stop_on)
 
     def get_info(self):
 

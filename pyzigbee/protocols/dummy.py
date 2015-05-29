@@ -13,11 +13,24 @@ class DummyProtocol(BaseProtocol):
     def __init__(self):
         pass
 
-    def encode_scan(self):
-        """Return an OWN frame to be sent to driver for scanning the Zigbee network"""
-        return ""
+    def get_info(self):
 
-    def decode_scan(self, data):
-        """Return a list of Zigbee IDs retrieved from the network"""
+        return return { "description": "Dummy protocol" }
+
+    def get_end_of_frame_sep(self):
+        return "|"
+
+    def encode_get_dev_number(self):
+        return []
+
+    def decode_dev_number(self, data):
+
+        return "12"
+
+    def encode_get_dev_id(self, dev_index):
 
         return []
+
+    def decode_dev_id(self, data):
+
+        return "45600021"
