@@ -23,9 +23,11 @@ def handle_exception(func):
 class PyZigBeeShell(cmd.Cmd):
     """PyZigBeeShell is the Cmd class of the pyzigbee shell app"""
 
-    intro = "Welcome to the PyZigBee shell! \n" \
-            "(underlying pyzigbee lib: %s)\n\n" \
-            "Type help or ? to list commands.\n" % __version__
+    intro = "###################################\n" \
+            "# Welcome to the PyZigBee shell!  #\n" \
+            "#       (pyzigbee lib: %s)       #\n" \
+            "# Type help or ? to list commands.#\n" \
+            "###################################\n" % __version__
     prompt = '(pyzigbeesh) '
     gateway = GatewayFactory.create_gateway("088328")
     logger = logging.getLogger("pyzigbee.shell")
