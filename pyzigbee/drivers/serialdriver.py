@@ -8,7 +8,7 @@ import serial
 import logging
 import re
 
-from pyzigbee.core.exceptions import PyZigBeeFailed
+from pyzigbee.core.exceptions import PyZigBeeFailed, PyZigBeeTimedOut
 from pyzigbee.drivers.basedriver import BaseDriver
 
 class SerialDriver(BaseDriver):
@@ -17,6 +17,7 @@ class SerialDriver(BaseDriver):
     keyword args are:
     - port: the serial port such as /dev/tty3 or COM3
     - baudrate: the serial line speed
+    - parity: the serial line parity
     """
 
     def __init__(self, **kwargs):
@@ -79,9 +80,8 @@ class SerialDriver(BaseDriver):
 
     def get_info(self):
 
-        info = { "description": "Serial driver",
+        return { "description": "Serial driver",
                  "port": self.port,
                  "baudrate": self.baudrate,
                  "parity": self.parity,
                }
-        return info

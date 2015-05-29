@@ -16,6 +16,7 @@ class Gateway(object):
     """
 
     def __init__(self, driver, protocol, description=""):
+
         self.set_driver(driver)
         self.set_protocol(protocol)
         self.description = description
@@ -44,9 +45,11 @@ class Gateway(object):
         return info
 
     def open(self):
+
         self.driver.open()
 
     def close(self):
+
         self.driver.close()
 
     def _get_answer(self, sequence):

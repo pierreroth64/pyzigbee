@@ -7,10 +7,10 @@
 from pyzigbee.protocols.baseprotocol import BaseProtocol
 
 class DummyProtocol(BaseProtocol):
-    """Dummy protocol mainly used for testing
-    """
+    """Dummy protocol mainly used for testing"""
 
     def __init__(self):
+
         pass
 
     def get_info(self):
@@ -18,9 +18,11 @@ class DummyProtocol(BaseProtocol):
         return { "description": "Dummy protocol" }
 
     def get_end_of_frame_sep(self):
+
         return "|"
 
     def encode_get_dev_number(self):
+
         return []
 
     def decode_dev_number(self, data):

@@ -14,6 +14,7 @@ class DummyDriver(BaseDriver):
     """
 
     def __init__(self, **kwargs):
+
         super(DummyDriver, self).__init__(**kwargs)
         self.data = None
 

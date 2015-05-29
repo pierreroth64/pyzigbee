@@ -21,6 +21,8 @@ def handle_exception(func):
     return inner
 
 class PyZigBeeShell(cmd.Cmd):
+    """PyZigBeeShell is the Cmd class of the pyzigbee shell app"""
+
     intro = "Welcome to the PyZigBee shell! \n" \
             "(underlying pyzigbee lib: %s)\n\n" \
             "Type help or ? to list commands.\n" % __version__
@@ -32,16 +34,19 @@ class PyZigBeeShell(cmd.Cmd):
     @handle_exception
     def do_gw_info(self, arg):
         """Print information about the current gateway"""
+
         self.pp.pprint(self.gateway.get_info())
 
     @handle_exception
     def do_gw_supported(self, arg):
         """Print list of currently supported gateways"""
+
         self.pp.pprint(GatewayFactory.get_supported_refs())
 
     @handle_exception
     def do_scan(self, arg):
         """Scan the network and print the found zigbee devices"""
+
         self.logger.info('scanning...')
         self.gateway.open()
         ids = self.gateway.scan()

@@ -7,10 +7,10 @@
 from pyzigbee.core.exceptions import PyZigBeeOperationNotSupported
 
 class BaseProtocol(object):
-    """Base protocol inherited by all the protocols
-    """
+    """Base protocol inherited by all the protocols"""
 
     def __init__(self):
+
         pass
 
     def get_info(self):

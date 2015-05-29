@@ -10,8 +10,7 @@ from pyzigbee.protocols.baseprotocol import BaseProtocol
 from pyzigbee.core.exceptions import PyZigBeeBadFormatError
 
 class OWNProtocol(BaseProtocol):
-    """OWN protocol is in charge of decoding/encoding OpenWebNet frames
-    """
+    """OWN protocol is in charge of decoding/encoding OpenWebNet frames"""
 
     def __init__(self):
         self.logger = logging.getLogger(__name__)
@@ -21,17 +20,20 @@ class OWNProtocol(BaseProtocol):
         return { "description": "OpenWebNet protocol" }
 
     def get_end_of_frame_sep(self):
+
         return "##"
 
     def encode_get_dev_number(self):
-        sequence = [ { "tx": "*13*65*##" },
-                     { "rx": "*#*1##" },
-                     { "delay": 13 },
-                     { "answer": ""}
-                   ]
-        return sequence
+        """Build the frames sequence to get the number of devices"""
+
+        return [ { "tx": "*13*65*##" },
+                 { "rx": "*#*1##" },
+                 { "delay": 13 },
+                 { "answer": ""} ]
 
     def decode_dev_number(self, data):
+        """Decode the given data to find the number of devices"""
+
         m = re.match("\*\#13\*\*67\*(\S+)\#\#", data)
         if m is not None:
             dev_nb = int(m.group(1))
@@ -41,13 +43,15 @@ class OWNProtocol(BaseProtocol):
             raise PyZigBeeBadFormatError("OWN: could not extract device number from frame: %s" % data)
 
     def encode_get_dev_id(self, dev_index):
-        sequence = [ { "tx": "*#13**73#%d##" % dev_index},
-                     { "rx": "*#*1##" },
-                     { "answer": ""},
-                   ]
-        return sequence
+        """Build the frames sequence to get the device ID from a gievn device index"""
+
+        return [ { "tx": "*#13**73#%d##" % dev_index},
+                 { "rx": "*#*1##" },
+                 { "answer": ""} ]
 
     def decode_dev_id(self, data):
+        """Decode the given data to find the device ID"""
+
         m = re.match("\*\#13\*(\S+)\#9\*73\#\S+\#\#", data)
         if m is not None:
             dev_id = m.group(1)
