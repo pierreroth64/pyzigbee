@@ -9,17 +9,21 @@ from optparse import OptionParser
 
 from pyzigbee.gateways.factory import GatewayFactory
 from pyzigbee.core.exceptions import PyZigBeeException
+from pyzigbee import __version__
 
 def handle_exception(func):
     def inner(*args, **kwargs):
         try:
-            return func(*args, **kwargs) #2
+            return func(*args, **kwargs)
         except PyZigBeeException as error:
             print "Error:", error.msg
+    inner.__doc__= func.__doc__
     return inner
 
 class PyZigBeeShell(cmd.Cmd):
-    intro = 'Welcome to the PyZigBee shell. Type help or ? to list commands.\n'
+    intro = "Welcome to the PyZigBee shell! \n" \
+            "(underlying pyzigbee lib: %s)\n\n" \
+            "Type help or ? to list commands.\n" % __version__
     prompt = '(pyzigbeesh) '
     gateway = GatewayFactory.create_gateway("088328")
     logger = logging.getLogger("pyzigbee.shell")
@@ -27,17 +31,17 @@ class PyZigBeeShell(cmd.Cmd):
 
     @handle_exception
     def do_gw_info(self, arg):
-        'Print current information about the current gateway'
+        """Print information about the current gateway"""
         self.pp.pprint(self.gateway.get_info())
 
     @handle_exception
     def do_gw_supported(self, arg):
-        'Print list of currently supported gateways'
+        """Print list of currently supported gateways"""
         self.pp.pprint(GatewayFactory.get_supported_refs())
 
     @handle_exception
     def do_scan(self, arg):
-        'Scan the network and print the found zigbee devices'
+        """Scan the network and print the found zigbee devices"""
         self.logger.info('scanning...')
         self.gateway.open()
         ids = self.gateway.scan()
