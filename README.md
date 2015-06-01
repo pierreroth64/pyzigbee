@@ -1,4 +1,4 @@
-pyzigbee is a library that enables to talk to Legrand zigbee devices through gateways
+pyzigbee is a library that lets to talk to Legrand zigbee devices through gateways
 
 [![Build Status](https://travis-ci.org/pierreroth/pyzigbee.svg?branch=master)](https://travis-ci.org/pierreroth/pyzigbee)
 
@@ -6,7 +6,11 @@ pyzigbee is a library that enables to talk to Legrand zigbee devices through gat
 Installation
 ------------
 
-Use the python installer to install dependencies:
+If you only want to install the library:
+
+    python setup.py install
+
+Use the python installer to install other dependencies that may be needed to run tests or build documentation:
 
     pip install -r requirements.txt
 
