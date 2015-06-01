@@ -17,5 +17,8 @@ class TestFactory:
         assert_true(isinstance(gateway.driver, SerialDriver))
         assert_true(isinstance(gateway.protocol, OWNProtocol))
 
+    def test_create_with_spaces(self):
+        gateway = GatewayFactory.create_gateway("0 883 28")
+
     def test_unsupported(self):
         assert_raises(PyZigBeeBadArgument, GatewayFactory.create_gateway, "0000000")

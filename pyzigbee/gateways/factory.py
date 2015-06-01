@@ -25,11 +25,17 @@ SUPPORTED_GW = {
     },
 }
 
-class GatewayFactory:
+class GatewayFactory(object):
     """Gateway factory which creates GW instances from a product reference"""
 
-    @staticmethod
-    def create_gateway(ref):
+    @classmethod
+    def _sanitize_ref(cls, ref):
+        return ref.replace(" ", "")
+
+    @classmethod
+    def create_gateway(cls, ref):
+
+        ref = cls._sanitize_ref(ref)
 
         if ref in SUPPORTED_GW.keys():
             try:
@@ -37,14 +43,14 @@ class GatewayFactory:
                 protocol = SUPPORTED_GW[ref]['protocol']['class']()
                 description = SUPPORTED_GW[ref]['description']
                 return Gateway(driver, protocol, description)
-            except KeyError:
-                raise PyZigBeeBadFormatError("Entry for %s is malformed" % ref)
+            except KeyError as error:
+                raise PyZigBeeBadFormatError("Entry for %s is malformed (%s)" % (ref, error))
         else:
             raise PyZigBeeBadArgument("%s is not supported" % ref)
 
 
-    @staticmethod
-    def get_supported_refs():
+    @classmethod
+    def get_supported_refs(cls):
 
         supported = {}
         for gw_k, gw_v in SUPPORTED_GW.items():
