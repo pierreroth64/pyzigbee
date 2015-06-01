@@ -5,10 +5,11 @@
 # All rights reserved
 
 from setuptools import setup, find_packages
+from pyzigbee import __version__
 
 setup(
     name = 'pyzigbee',
-    version = '0.1.0',
+    version = __version__,
     description = 'pyzigbee is a python library that lets you to talk to Legrand zigbee devices through gateways',
     long_description = open("README.md").read(),
     author = 'Pierre Roth',
