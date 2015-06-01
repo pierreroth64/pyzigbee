@@ -11,6 +11,13 @@ from pyzigbee.gateways.factory import GatewayFactory
 from pyzigbee.core.exceptions import PyZigBeeException
 from pyzigbee import __version__
 
+try:
+    from colorlog import basicConfig
+    FORMAT = '%(log_color)s%(asctime)s:%(name)s:%(levelname)s: %(message)s'
+except ImportError:
+    from logging import basicConfig
+    FORMAT = '%(asctime)s:%(name)s:%(levelname)s: %(message)s'
+
 def handle_exception(func):
     def inner(*args, **kwargs):
         try:
@@ -71,6 +78,5 @@ if __name__ == '__main__':
                       help="set log level to LEVEL", metavar="LEVEL")
     (options, args) = parser.parse_args()
     level = int(options.debug_level) if options.debug_level is not None else logging.CRITICAL
-    format = '%(asctime)s:%(name)s:%(levelname)s: %(message)s'
-    logging.basicConfig(level=level, format=format)
+    basicConfig(level=level, format=FORMAT)
     PyZigBeeShell().cmdloop()
