@@ -71,8 +71,7 @@ class PyZigBeeShell(cmd.Cmd):
         self.gateway.close()
         print version
 
-if __name__ == '__main__':
-
+def main():
     parser = OptionParser()
     parser.add_option("-d", "--debug", dest="debug_level",
                       help="set log level to LEVEL", metavar="LEVEL")
@@ -80,3 +79,7 @@ if __name__ == '__main__':
     level = int(options.debug_level) if options.debug_level is not None else logging.CRITICAL
     basicConfig(level=level, format=FORMAT)
     PyZigBeeShell().cmdloop()
+
+if __name__ == '__main__':
+
+    main()
