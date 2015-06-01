@@ -24,7 +24,7 @@ class SerialDriver(BaseDriver):
 
         super(SerialDriver, self).__init__(kwargs=kwargs)
         self.port = self._get_or_default(kwargs, 'port', '/dev/ttyUSB0')
-        self.baudrate = self._get_or_default(kwargs, 'baudrate', 115200)
+        self.baudrate = int(self._get_or_default(kwargs, 'baudrate', 115200))
         self.parity = self._get_or_default(kwargs, 'parity', 'N')
         self.dev = None
         self.logger = logging.getLogger(__name__)
