@@ -84,7 +84,6 @@ class Gateway(object):
     def scan(self):
         """Scan the network and return a list of ZigBee IDs"""
 
-        self.logger.info("start scanning...")
         self.logger.debug("getting number of devices...")
         sequence = self.protocol.encode_get_dev_number()
         answer = self._get_answer(sequence)
@@ -101,6 +100,5 @@ class Gateway(object):
             self.logger.debug("device ID at index %d: %s", i, dev_id)
             dev_ids.append(dev_id)
 
-        self.logger.info("end of scan.")
         return dev_ids
 
