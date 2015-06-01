@@ -52,7 +52,8 @@ class PyZigBeeShell(cmd.Cmd):
         self.gateway.open()
         ids = self.gateway.scan()
         self.gateway.close()
-        print ids
+        for id in ids:
+            print id
 
     @handle_exception
     def do_gw_version(self, arg):
