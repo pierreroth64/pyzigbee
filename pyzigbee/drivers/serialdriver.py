@@ -59,8 +59,8 @@ class SerialDriver(BaseDriver):
     def on_read(self, to_read=None, stop_on="None"):
 
         data = ""
-        if to_read is not None:
-            data = self.dev.read(size=to_read)
+        if to_read is not None and to_read != "":
+            data = self.dev.read(size=int(to_read))
         else:
             if stop_on is not None:
                 stop_pattern = re.escape(stop_on)
