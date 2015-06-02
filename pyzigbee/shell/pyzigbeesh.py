@@ -54,6 +54,13 @@ class PyZigBeeShell(cmd.Cmd):
         self.pp.pprint(GatewayFactory.get_supported_refs())
 
     @handle_exception
+    def do_gw_change(self, ref):
+        """Change the current gateway
+
+        arg: gateway reference"""
+        self.gateway = GatewayFactory.create_gateway(ref)
+
+    @handle_exception
     def do_scan(self, arg):
         """Scan the network and print the found zigbee devices"""
 
