@@ -4,22 +4,25 @@
 # Copyright (C) 2015 Legrand France
 # All rights reserved
 
+import json
+
 from pyzigbee.core.exceptions import PyZigBeeBadArgument
 from pyzigbee.protocols.openwebnet import OWNProtocol
 from pyzigbee.drivers.serialdriver import SerialDriver
 from pyzigbee.gateways.gateway import Gateway
+from pyzigbee.conf.factory import ConfReaderFactory
 
 SUPPORTED_GW = {
-    '088328': {
-        'description': "088328 USB/Zigbee dongle",
-        'protocol': {
-            'class': OWNProtocol,
+    "088328": {
+        "description": "088328 USB/Zigbee dongle",
+        "protocol": {
+            "class": OWNProtocol,
         },
-        'driver': {
-            'class': SerialDriver,
-            'args': {
-                'port': '/dev/ttyUSB0',
-                'baudrate': '19200',
+        "driver": {
+            "class": SerialDriver,
+            "args": {
+                "port": "/dev/ttyUSB0",
+                "baudrate": "19200",
             },
         },
     },
@@ -33,13 +36,18 @@ class GatewayFactory(object):
         return ref.replace(" ", "")
 
     @classmethod
-    def create_gateway(cls, ref):
+    def create_gateway(cls, ref, conf_filename=None):
 
         ref = cls._sanitize_ref(ref)
 
         if ref in SUPPORTED_GW.keys():
             try:
-                driver = SUPPORTED_GW[ref]['driver']['class'](**SUPPORTED_GW[ref]['driver']['args'])
+                args = SUPPORTED_GW[ref]['driver']['args']
+                # args may be overriden by conf file values
+                conf_reader = ConfReaderFactory.create_conf_reader(conf_filename)
+                args = conf_reader.override_args_with_conf(ref, args)
+
+                driver = SUPPORTED_GW[ref]['driver']['class'](**args)
                 protocol = SUPPORTED_GW[ref]['protocol']['class']()
                 description = SUPPORTED_GW[ref]['description']
                 return Gateway(driver, protocol, description)

@@ -1,0 +1,10 @@
+{
+    "088328": {
+        "driver": {
+            "args": {
+                "port": "/dev/ttyUSB0",
+                "baudrate": "19200"
+            }
+        }
+    }
+}
