@@ -10,6 +10,7 @@ import logging
 import pprint
 import os
 from optparse import OptionParser
+from contextlib import closing
 
 from pyzigbee.gateways.factory import GatewayFactory
 from pyzigbee.core.exceptions import PyZigBeeException
@@ -73,9 +74,9 @@ class PyZigBeeShell(cmd.Cmd):
     def do_scan(self, arg):
         """Scan the network and print the found zigbee devices"""
 
-        self.gateway.open()
-        ids = self.gateway.scan()
-        self.gateway.close()
+        with closing(self.gateway.open()) as gateway:
+            ids = gateway.scan()
+
         for id in ids:
             print id
 
@@ -83,9 +84,8 @@ class PyZigBeeShell(cmd.Cmd):
     def do_gw_version(self, arg):
         """Request the gateway for its firmware version"""
 
-        self.gateway.open()
-        version = self.gateway.get_version()
-        self.gateway.close()
+        with closing(self.gateway.open()) as gateway:
+            version = gateway.get_version()
         print version
 
     @handle_exception
@@ -112,7 +112,7 @@ class PyZigBeeShell(cmd.Cmd):
 
     @handle_exception
     def do_drv_close(self, arg):
-        """CLose the gateway driver"""
+        """Close the gateway driver"""
 
         self.gateway.driver.close()
 

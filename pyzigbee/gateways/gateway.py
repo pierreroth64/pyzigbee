@@ -53,10 +53,12 @@ class Gateway(object):
     def open(self):
 
         self.driver.open()
+        return self
 
     def close(self):
 
         self.driver.close()
+        return self
 
     def _get_answer(self, sequence):
 
