@@ -46,6 +46,7 @@ class SerialDriver(BaseDriver):
 
     def on_close(self):
 
+        self.logger.debug("closed serial port %s.", self.port)
         self.dev = None
 
     def on_write(self, data):
