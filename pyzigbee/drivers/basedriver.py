@@ -4,7 +4,7 @@
 # Copyright (C) 2015 Legrand France
 # All rights reserved
 
-from pyzigbee.core.exceptions import PyZigBeeDenied
+from pyzigbee.core.exceptions import PyZigBeeDenied, PyZigBeeFailed
 
 class BaseDriver(object):
     """Base driver inherited by all the drivers"""
@@ -50,14 +50,20 @@ class BaseDriver(object):
         if not self.is_open:
             raise PyZigBeeDenied("Driver is closed")
 
-        self.on_write(data)
+        try:
+            self.on_write(data)
+        except Exception as error:
+            raise PyZigBeeFailed("failed to write data to driver (%s)" %  error)
 
     def read(self, to_read=None, stop_on=None):
 
         if not self.is_open:
             raise PyZigBeeDenied("Driver is closed")
 
-        return self.on_read(to_read=to_read, stop_on=stop_on)
+        try:
+            return self.on_read(to_read=to_read, stop_on=stop_on)
+        except Exception as error:
+            raise PyZigBeeFailed("failed to read data from driver (%s)" %  error)
 
     def get_info(self):
 
