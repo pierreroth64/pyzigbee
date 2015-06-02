@@ -107,7 +107,12 @@ def main():
     (options, args) = parser.parse_args()
     level = int(options.debug_level) if options.debug_level is not None else logging.CRITICAL
     basicConfig(level=level, format=FORMAT)
-    PyZigBeeShell().cmdloop()
+
+    try:
+        PyZigBeeShell().cmdloop()
+    except KeyboardInterrupt:
+        print "Bye!"
+        sys.exit(0)
 
 if __name__ == '__main__':
 
