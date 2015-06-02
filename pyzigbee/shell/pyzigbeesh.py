@@ -39,6 +39,7 @@ class PyZigBeeShell(cmd.Cmd):
     gateway = GatewayFactory.create_gateway("088328")
     logger = logging.getLogger("pyzigbee.shell")
     pp = pprint.PrettyPrinter(indent=4)
+    intro += "\ncurrent gateway: %s \n" % gateway.get_info()["description"]
 
     @handle_exception
     def do_gw_info(self, arg):
