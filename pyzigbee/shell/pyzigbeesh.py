@@ -4,7 +4,11 @@
 # Copyright (C) 2015 Legrand France
 # All rights reserved
 
-import cmd, sys, logging, pprint
+import cmd
+import sys
+import logging
+import pprint
+import os
 from optparse import OptionParser
 
 from pyzigbee.gateways.factory import GatewayFactory
@@ -36,10 +40,15 @@ class PyZigBeeShell(cmd.Cmd):
             "# Type help or ? to list commands.#\n" \
             "###################################\n" % __version__
     prompt = '(pyzigbeesh) '
-    gateway = GatewayFactory.create_gateway("088328")
-    logger = logging.getLogger("pyzigbee.shell")
-    pp = pprint.PrettyPrinter(indent=4)
-    intro += "\ncurrent gateway: %s \n" % gateway.get_info()["description"]
+
+    def __init__(self, conf_filename=None):
+        cmd.Cmd.__init__(self)
+        self.conf_filename = conf_filename
+        self.gateway = GatewayFactory.create_gateway(ref="088328", conf_filename=self.conf_filename)
+        self.logger = logging.getLogger("pyzigbee.shell")
+        self.pp = pprint.PrettyPrinter(indent=4)
+        PyZigBeeShell.intro += "\ncurrent gateway: %s \n" % self.gateway.get_info()["description"]
+        PyZigBeeShell.intro += "configuration file: %s \n" % self.conf_filename
 
     @handle_exception
     def do_gw_info(self, arg):
@@ -58,7 +67,7 @@ class PyZigBeeShell(cmd.Cmd):
         """Change the current gateway
 
         arg: gateway reference"""
-        self.gateway = GatewayFactory.create_gateway(ref)
+        self.gateway = GatewayFactory.create_gateway(ref=ref, conf_filename=self.conf_filename)
 
     @handle_exception
     def do_scan(self, arg):
@@ -107,17 +116,33 @@ class PyZigBeeShell(cmd.Cmd):
 
         self.gateway.driver.close()
 
+def get_conf_filename(options):
+    if options.conf_filename is None:
+        default_conf = os.path.join(os.path.dirname(os.path.abspath(__file__)), "conf.json")
+        if os.path.exists(default_conf):
+            conf_filename = default_conf
+        else:
+            conf_filename = None
+    else:
+        if os.path.exists(options.conf_filename):
+            conf_filename = options.conf_filename
+        else:
+            print "Error: %s does not exist" % options.conf_filename
+            sys.exit(1)
+    return conf_filename
 
 def main():
     parser = OptionParser()
     parser.add_option("-d", "--debug", dest="debug_level",
                       help="set log level to LEVEL", metavar="LEVEL")
+    parser.add_option("-c", "--conf", dest="conf_filename",
+                      help="configuration FILENAME", metavar="FILENAME")
     (options, args) = parser.parse_args()
     level = int(options.debug_level) if options.debug_level is not None else logging.CRITICAL
     basicConfig(level=level, format=FORMAT)
 
     try:
-        PyZigBeeShell().cmdloop()
+        PyZigBeeShell(conf_filename=get_conf_filename(options)).cmdloop()
     except KeyboardInterrupt:
         print "Bye!"
         sys.exit(0)
