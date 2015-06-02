@@ -71,6 +71,35 @@ class PyZigBeeShell(cmd.Cmd):
         self.gateway.close()
         print version
 
+    @handle_exception
+    def do_drv_read(self, arg):
+        """Read data trough the gateway driver (bypassing protocol decoding)
+
+        Optional arg: number of bytes to read"""
+
+        print self.gateway.driver.read(to_read=arg)
+
+    @handle_exception
+    def do_drv_write(self, arg):
+        """Write data to the gateway driver (bypassing protocol encoding)
+
+        example: drv_write 12345"""
+
+        self.gateway.driver.write(arg)
+
+    @handle_exception
+    def do_drv_open(self, arg):
+        """Open the gateway driver"""
+
+        self.gateway.driver.open()
+
+    @handle_exception
+    def do_drv_close(self, arg):
+        """CLose the gateway driver"""
+
+        self.gateway.driver.close()
+
+
 def main():
     parser = OptionParser()
     parser.add_option("-d", "--debug", dest="debug_level",
