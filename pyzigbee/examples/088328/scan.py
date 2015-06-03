@@ -4,7 +4,7 @@
 from contextlib import closing
 from pyzigbee.gateways.factory import GatewayFactory
 
-gateway = GatewayFactory.create_gateway(ref="088328")
+gateway = GatewayFactory().create_gateway(ref="088328")
 
 with closing(gateway.open()) as gateway:
     ids = gateway.scan()

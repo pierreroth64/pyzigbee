@@ -45,7 +45,7 @@ class PyZigBeeShell(cmd.Cmd):
     def __init__(self, conf_filename=None):
         cmd.Cmd.__init__(self)
         self.conf_filename = conf_filename
-        self.gateway = GatewayFactory.create_gateway(ref="088328", conf_filename=self.conf_filename)
+        self.gateway = GatewayFactory(conf_filename=self.conf_filename).create_gateway(ref="088328")
         self.logger = logging.getLogger("pyzigbee.shell")
         self.pp = pprint.PrettyPrinter(indent=4)
         PyZigBeeShell.intro += "\ncurrent gateway: %s \n" % self.gateway.get_info()["description"]
@@ -68,7 +68,7 @@ class PyZigBeeShell(cmd.Cmd):
         """Change the current gateway
 
         arg: gateway reference"""
-        self.gateway = GatewayFactory.create_gateway(ref=ref, conf_filename=self.conf_filename)
+        self.gateway = GatewayFactory(conf_filename=self.conf_filename).create_gateway(ref=ref)
 
     @handle_exception
     def do_scan(self, arg):
