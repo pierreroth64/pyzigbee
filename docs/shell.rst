@@ -1,7 +1,7 @@
 Shell
 =====
 
-When installing the pyzgbee library, a shell script called **pyzigbeesh** is also installed.
+When :doc:`installing </install>` the pyzgbee library, a shell script called **pyzigbeesh** is also installed.
 
 You can call it from command line:
 

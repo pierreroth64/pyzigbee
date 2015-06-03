@@ -8,8 +8,6 @@ Welcome to pyzigbee's documentation!
 
 Version: |release|
 
-Contents:
-
 .. toctree::
    :maxdepth: 2
 
@@ -19,7 +17,6 @@ Contents:
    shell
    arch
    hwsetup
-
 
 
 Indices and tables
