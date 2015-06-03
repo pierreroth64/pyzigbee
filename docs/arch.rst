@@ -23,22 +23,25 @@ Some more details
 
 To reflect reality, the library has the following classes:
 
-  * Drivers: deal with low level communication with the underlying hardware
-  * Protocols: deal with encoding and decoding frames for given protocols
-  * Gateways: relying on Drivers and Protocols, they provide an API to talk to Zigbee devices
+  * **Drivers**: deal with low level communication with the underlying hardware
+  * **Protocols**: deal with encoding and decoding frames for given protocols
+  * **Gateways**: relying on Drivers and Protocols, they provide an API to talk to Zigbee devices
+
+UML diagram
+^^^^^^^^^^^
 
 The UML diagram should look like:
 
 ::
   
-           ___________                                                    __________
-          |           |------------------------------------------------> |          |
-          |  Gateway  |            ________                              | Protocol |
-          |___________|---------> |        |                             |__________|
-                                  | Driver |                                 ^ ^ ^
-                                  |________|                                 | | |_____________________
-                                    ^  ^  ^                            ______| |_______                |
-                                    |  |  |                      _____|______    ______|_________      |
+           ___________                                                    _______________
+          |           |------------------------------------------------> | <<interface>> |
+          |  Gateway  |          _______________                         |    Protocol   |
+          |___________|-------> | <<interface>> |                        |_______________|
+                                |     Driver    |                            ^ ^ ^
+                                |_______________|                            | | |____________________
+                                    ^  ^  ^                            ______| |_______               |
+                                    |  |  |                      _____|______    ______|_________     |
                                     |  |  |                     |            |  |                |
                                     |  |  |_________________    | OpenWebNet |  | Dummy protocol | ...etc
                             ________|  |________            |   |____________|  |________________|
@@ -53,3 +56,23 @@ The UML diagram should look like:
   The *dummy* classes are used for testing
 
 The client code (application side) only relies on Gateway objects which are created by the library.
+
+Interfaces
+^^^^^^^^^^
+
+A *Gateway* is composed of two objects: a *Driver* and a *Protocol* which are interfaces. Real drivers and protocols must implement those interfaces.
+
+.. module :: pyzigbee.drivers.basedriver
+.. autoclass:: BaseDriver
+
+.. module :: pyzigbee.protocols.baseprotocol
+.. autoclass:: BaseProtocol
+
+Some implementations
+^^^^^^^^^^^^^^^^^^^^
+
+.. module :: pyzigbee.drivers.serialdriver
+.. autoclass:: SerialDriver
+
+.. module :: pyzigbee.protocols.openwebnet
+.. autoclass:: OWNProtocol
