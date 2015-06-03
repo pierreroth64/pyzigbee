@@ -17,6 +17,7 @@ Contents:
    install
    shell
    arch
+   hwsetup
 
 
 
