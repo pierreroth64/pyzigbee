@@ -17,7 +17,7 @@ Here is a simple example of pyzigbee library usage.
 
     print "Zigbee devices on the network:", ids
 
-You may need to pass a configuration file to the factory to be override some driver arguments. Change gateway creation as following:
+You may need to pass a configuration file (see: :ref:`configuration`) to the factory to be override some driver arguments. Change gateway creation as following:
 
 .. code-block:: python
 

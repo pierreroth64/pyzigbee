@@ -27,6 +27,8 @@ For example, to activate logs:
   You may need to gain priviledges on your machine to access the underlying hardware (such as the serial com port). A *sudo pyzigbeesh* should do the trick.
 
 
+.. _configuration:
+
 Configuration
 -------------
 
