@@ -55,7 +55,7 @@ The UML diagram should look like:
 
   The *dummy* classes are used for testing
 
-The client code (application side) only relies on Gateway objects which are created by the library.
+The client code (application side) only relies on Gateway objects which are created by the *GatewayFactory*.
 
 Interfaces
 ^^^^^^^^^^
