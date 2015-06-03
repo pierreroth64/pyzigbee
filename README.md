@@ -23,13 +23,11 @@ Testing
 
 To run the full test suite, from the top directory:
 
-    PYTHONPATH=. nosetests
-
-Please, refer to nosetests documentation for more information
+    make test
 
 Documentation
 -------------
 
-Full documentation is built with sphinx:
+To build the documentation:
 
-    cd docs && PYTHONPATH=.. make html
+    make doc
