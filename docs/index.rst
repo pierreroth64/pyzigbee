@@ -15,6 +15,7 @@ Contents:
 
    intro
    install
+   example
    shell
    arch
    hwsetup
