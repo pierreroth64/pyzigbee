@@ -10,6 +10,10 @@ from pyzigbee.core.exceptions import PyZigBeeResourceNotFound, PyZigBeeBadFormat
 from pyzigbee.conf.jsonreader import JSONConfReader
 from pyzigbee.conf.donothingreader import DoNothingConfReader
 
+SUPPORTED_FORMATS = {
+    ".json": JSONConfReader
+}
+
 class ConfReaderFactory(object):
     """ConfReader factory which creates Configuration readers according
        to passed configuration filename"""
@@ -24,9 +28,8 @@ class ConfReaderFactory(object):
                                            % conf_filename)
 
         extension = os.path.splitext(conf_filename)[1]
-
-        if extension == ".json":
-            return JSONConfReader(conf_filename)
-        else:
-            raise PyZigBeeBadFormatError("%s extensions for configuration file is not supported" \
-                                         % extension)
+        try:
+            return SUPPORTED_FORMATS[extension](conf_filename)
+        except KeyError as error:
+            raise PyZigBeeBadFormatError("%s extension for configuration file is not supported" \
+                                          "(supported ones: %s)" % (extension, SUPPORTED_FORMATS.keys()))
