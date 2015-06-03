@@ -10,6 +10,6 @@ You may need to pass a configuration file (see: :ref:`configuration`) to the fac
 
 .. code-block:: python
 
-	gateway = GatewayFactory.create_gateway(ref="088328", conf_filename="my_conf.json")
+	gateway = GatewayFactory(conf_filename="my_conf.json").create_gateway(ref="088328")
 	
 

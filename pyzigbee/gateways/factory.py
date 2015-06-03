@@ -31,22 +31,19 @@ SUPPORTED_GW = {
 class GatewayFactory(object):
     """Gateway factory which creates GW instances from a product reference"""
 
-    @classmethod
-    def _sanitize_ref(cls, ref):
+    def __init__(self, conf_filename=None):
+        self.conf_reader = ConfReaderFactory.create_conf_reader(conf_filename)
+
+    def _sanitize_ref(self, ref):
         return ref.replace(" ", "")
 
-    @classmethod
-    def create_gateway(cls, ref, conf_filename=None):
+    def create_gateway(self, ref, conf_filename=None):
 
-        ref = cls._sanitize_ref(ref)
+        ref = self._sanitize_ref(ref)
 
         if ref in SUPPORTED_GW.keys():
             try:
-                args = SUPPORTED_GW[ref]['driver']['args']
-                # args may be overriden by conf file values
-                conf_reader = ConfReaderFactory.create_conf_reader(conf_filename)
-                args = conf_reader.override_args_with_conf(ref, args)
-
+                args = self.conf_reader.override_args_with_conf(ref, SUPPORTED_GW[ref]['driver']['args'])
                 driver = SUPPORTED_GW[ref]['driver']['class'](**args)
                 protocol = SUPPORTED_GW[ref]['protocol']['class']()
                 description = SUPPORTED_GW[ref]['description']
@@ -56,9 +53,7 @@ class GatewayFactory(object):
         else:
             raise PyZigBeeBadArgument("%s is not supported" % ref)
 
-
-    @classmethod
-    def get_supported_refs(cls):
+    def get_supported_refs(self):
 
         supported = {}
         for gw_k, gw_v in SUPPORTED_GW.items():
