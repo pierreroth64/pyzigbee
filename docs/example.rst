@@ -1,21 +1,10 @@
 Code example
 ============
 
-Here is a simple example of pyzigbee library usage.
+Here is a simple example of pyzigbee library usage (see: *pyzigbee/examples/088328/scan.py*)
 
-.. code-block:: python
+.. literalinclude:: ../pyzigbee/examples/088328/scan.py
 
-    #!/usr/bin/env python
-    # -*- coding: utf-8 -*-
-
-    from pyzigbee.gateways.factory import GatewayFactory
-
-	gateway = GatewayFactory.create_gateway(ref="088328")
-
-	with closing(self.gateway.open()) as gateway:
-        ids = gateway.scan()
-
-    print "Zigbee devices on the network:", ids
 
 You may need to pass a configuration file (see: :ref:`configuration`) to the factory to be override some driver arguments. Change gateway creation as following:
 
