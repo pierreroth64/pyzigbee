@@ -19,23 +19,22 @@ class DummyDriver(BaseDriver):
         self.data = None
 
     def get_info(self):
-
         return{ "description": "Dummy driver (reading from it what you previously wrote to it)" }
 
     def on_open(self):
-
         pass
 
     def on_close(self):
-
         pass
 
     def on_write(self, data):
-
         self.data =  data
 
     def on_read(self, to_read=None, stop_on=None):
-
         return self.data
 
+    def set_blocking(self):
+        pass
 
+    def set_unblocking(self, timeout=0):
+        pass

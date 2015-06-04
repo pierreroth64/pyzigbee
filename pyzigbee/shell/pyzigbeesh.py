@@ -94,6 +94,15 @@ class PyZigBeeShell(cmd.Cmd):
             print id
 
     @handle_exception
+    def do_receive(self, arg):
+        """Receive frame from the network
+
+        Optional arg: number of seconds to block (no arg means infinite)"""
+
+        with closing(self.gateway.open()) as gateway:
+            print gateway.receive(timeout=arg)
+
+    @handle_exception
     def do_version(self, arg):
         """Request the device for its firmware/hardware version numbers
 

@@ -6,7 +6,7 @@
 from nose.tools import assert_raises, assert_true, assert_false, assert_equal
 
 from pyzigbee.drivers.dummydriver import DummyDriver
-from pyzigbee.core.exceptions import PyZigBeeDenied
+from pyzigbee.core.exceptions import PyZigBeeDenied, PyZigBeeBadFormatError
 
 class TestDummyDriver:
 
@@ -44,3 +44,21 @@ class TestDummyDriver:
 
         self.drv.write("another data")
         assert_equal("another data", self.drv.read())
+
+    def test_set_blocking(self):
+        self.drv.open()
+        self.drv.set_blocking_mode()
+
+    def test_set_blocking_but_not_open(self):
+        assert_raises(PyZigBeeDenied, self.drv.set_blocking_mode)
+
+    def test_set_unblocking(self):
+        self.drv.open()
+        self.drv.set_unblocking_mode(timeout=3)
+
+    def test_set_unblocking_wrong_format(self):
+        self.drv.open()
+        assert_raises(PyZigBeeBadFormatError, self.drv.set_unblocking_mode, timeout="bad format")
+
+    def test_set_unblocking_but_not_open(self):
+        assert_raises(PyZigBeeDenied, self.drv.set_unblocking_mode, timeout=3)
