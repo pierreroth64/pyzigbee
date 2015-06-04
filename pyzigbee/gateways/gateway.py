@@ -122,3 +122,24 @@ class Gateway(object):
         else:
             self.driver.set_unblocking_mode(timeout=timeout)
         return self.driver.read(stop_on=self.protocol.get_end_of_frame_sep())
+
+
+    def bind(self, zigbee_id):
+        """Bind procedure
+
+        The zigbee device"""
+
+        self.driver.set_blocking_mode()
+
+        answer = self.driver.read(stop_on=self.protocol.get_end_of_frame_sep())
+        dev_id = self.protocol.decode_binding_id(answer)
+
+        if dev_id != zigbee_id:
+            raise PyZigBeeBadArgument("Received binding from ID: %s (expected was: %s)" \
+                                      % (dev_id, zigbee_id))
+
+        sequence = self.protocol.encode_binding_request(zigbee_id)
+        self._get_answer(sequence)
+
+
+

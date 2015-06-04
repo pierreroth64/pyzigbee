@@ -49,3 +49,9 @@ class DummyProtocol(BaseProtocol):
 
     def decode_hardware_version(self, data, zigbee_id=None):
         return "1.0.0"
+
+    def decode_binding_id(self, data):
+        return "1231"
+
+    def encode_binding_request(self, zigbee_id):
+        return []

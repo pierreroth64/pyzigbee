@@ -49,3 +49,9 @@ class BaseProtocol(object):
 
     def decode_hardware_version(self, data, zigbee_id=None):
         raise PyZigBeeOperationNotSupported("decode_hardware_version: This method must be implemented by your protocol")
+
+    def decode_binding_id(self, data):
+        raise PyZigBeeOperationNotSupported("decode_binding_id: This method must be implemented by your protocol")
+
+    def encode_binding_request(self, zigbee_id):
+        raise PyZigBeeOperationNotSupported("encode_binding_request: This method must be implemented by your protocol")

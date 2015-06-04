@@ -7,7 +7,7 @@
 import re
 import logging
 from pyzigbee.protocols.baseprotocol import BaseProtocol
-from pyzigbee.core.exceptions import PyZigBeeBadFormatError
+from pyzigbee.core.exceptions import PyZigBeeBadFormatError, PyZigBeeBadArgument
 
 OWN_ACK = "*#*1##"
 OWN_NACK = "*#*0##"
@@ -120,3 +120,24 @@ class OWNProtocol(BaseProtocol):
             return version
         else:
             self._raise_format_error("could not extract version from frame", data)
+
+    def decode_binding_id(self, data):
+        """Decode binding ID from the given data"""
+
+        m = re.match("\*25\*35\*(\S+)\#9\#\#", data)
+        if m is not None:
+            binding_id = m.group(1)
+            self.logger.debug("binding ID: %s", binding_id)
+            return binding_id
+        else:
+            self._raise_format_error("could not extract bindign ID from frame", data)
+
+
+    def encode_binding_request(self, zigbee_id):
+        """Encode binding request for a given zigbee ID"""
+
+        zigbee_id = self._build_where_field(zigbee_id)
+        return [ { "tx": "*25*33*%s#9##" % zigbee_id},
+                 { "rx": OWN_ACK},
+                 { "rx": "*25*36*%s#9##" % zigbee_id} ]
+

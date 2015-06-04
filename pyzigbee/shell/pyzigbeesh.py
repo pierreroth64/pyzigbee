@@ -103,6 +103,15 @@ class PyZigBeeShell(cmd.Cmd):
             print gateway.receive(timeout=arg)
 
     @handle_exception
+    def do_bind(self, arg):
+        """Bind procecure
+
+        arg: is the zigbee ID to bind with"""
+
+        with closing(self.gateway.open()) as gateway:
+            print gateway.bind(zigbee_id=arg)
+
+    @handle_exception
     def do_version(self, arg):
         """Request the device for its firmware/hardware version numbers
 
