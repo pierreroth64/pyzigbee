@@ -44,11 +44,17 @@ class Gateway(object):
         info['protocol'] = self.protocol.get_info()
         return info
 
-    def get_version(self):
+    def get_firmware_version(self, zigbee_id=None):
 
-        sequence = self.protocol.encode_get_version()
+        sequence = self.protocol.encode_get_firmware_version(zigbee_id)
         answer = self._get_answer(sequence)
-        return self.protocol.decode_version(answer)
+        return self.protocol.decode_firmware_version(answer, zigbee_id)
+
+    def get_hardware_version(self, zigbee_id=None):
+
+        sequence = self.protocol.encode_get_hardware_version(zigbee_id)
+        answer = self._get_answer(sequence)
+        return self.protocol.decode_hardware_version(answer, zigbee_id)
 
     def open(self):
 

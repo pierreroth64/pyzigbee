@@ -37,10 +37,18 @@ class DummyProtocol(BaseProtocol):
 
         return "45600021"
 
-    def encode_get_version(self):
+    def encode_get_firmware_version(self, zigbee_id=None):
 
         return []
 
-    def decode_version(self, data):
+    def encode_get_hardware_version(self, zigbee_id=None):
+
+        return []
+
+    def decode_firmware_version(self, data, zigbee_id=None):
+
+        return "1.0.0"
+
+    def decode_hardware_version(self, data, zigbee_id=None):
 
         return "1.0.0"

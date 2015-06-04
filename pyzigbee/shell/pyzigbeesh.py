@@ -89,12 +89,14 @@ class PyZigBeeShell(cmd.Cmd):
             print id
 
     @handle_exception
-    def do_gw_version(self, arg):
-        """Request the gateway for its firmware version"""
+    def do_version(self, arg):
+        """Request the device for its firmware/hardware version numbers
+
+        Optional arg: zigbee ID (if unset request the gateway version numbers)"""
 
         with closing(self.gateway.open()) as gateway:
-            version = gateway.get_version()
-        print version
+            print "firmware:", gateway.get_firmware_version(zigbee_id=arg)
+            print "hardware:", gateway.get_hardware_version(zigbee_id=arg)
 
     @handle_exception
     def do_drv_read(self, arg):
