@@ -36,3 +36,7 @@ class TestOWNProtocol:
         assert_equal({ "tx": "*#13**16##"}, self.protocol.encode_get_firmware_version()[0])
         assert_equal({ "tx": "*#13*7123456*16##"}, self.protocol.encode_get_firmware_version(zigbee_id="7123456")[0])
 
+    def test_encode_get_hardware_version(self):
+
+        assert_equal({ "tx": "*#13**17##"}, self.protocol.encode_get_hardware_version()[0])
+        assert_equal({ "tx": "*#13*7123456*17##"}, self.protocol.encode_get_hardware_version(zigbee_id="7123456")[0])
