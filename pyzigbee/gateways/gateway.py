@@ -92,6 +92,8 @@ class Gateway(object):
     def scan(self, delay=5):
         """Scan the network and return a list of ZigBee IDs"""
 
+        self.driver.set_unblocking_mode()
+
         self.logger.debug("getting number of devices...")
         sequence = self.protocol.encode_get_dev_number(delay=delay)
         answer = self._get_answer(sequence)
@@ -110,3 +112,13 @@ class Gateway(object):
 
         return dev_ids
 
+    def receive(self, timeout=None):
+        """Receive frame from the network
+
+        Optional arg: read timeout in seconds for non blocking mode"""
+
+        if timeout is None or timeout == "":
+            self.driver.set_blocking_mode()
+        else:
+            self.driver.set_unblocking_mode(timeout=timeout)
+        return self.driver.read(stop_on=self.protocol.get_end_of_frame_sep())

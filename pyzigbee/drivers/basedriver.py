@@ -4,7 +4,7 @@
 # Copyright (C) 2015 Legrand France
 # All rights reserved
 
-from pyzigbee.core.exceptions import PyZigBeeDenied, PyZigBeeFailed
+from pyzigbee.core.exceptions import PyZigBeeDenied, PyZigBeeFailed, PyZigBeeBadFormatError
 
 class BaseDriver(object):
     """Base driver inherited by all the drivers"""
@@ -14,23 +14,24 @@ class BaseDriver(object):
         self.is_open = False
 
     def on_open(self):
-
         raise PyZigBeeOperationNotSupported("on_open: This method must be implemented by your driver")
 
     def on_close(self):
-
         raise PyZigBeeOperationNotSupported("on_close: This method must be implemented by your driver")
 
     def on_write(self, data):
-
         raise PyZigBeeOperationNotSupported("on_write: This method must be implemented by your driver")
 
     def on_read(self, to_read, stop_on):
-
         raise PyZigBeeOperationNotSupported("on_read: This method must be implemented by your driver")
 
-    def open(self):
+    def set_blocking(self):
+        raise PyZigBeeOperationNotSupported("set_blocking: This method must be implemented by your driver")
 
+    def set_unblocking(self, timeout=0):
+        raise PyZigBeeOperationNotSupported("set_unblocking: This method must be implemented by your driver")
+
+    def open(self):
         if not self.is_open:
             self.is_open = True
             self.on_open()
@@ -38,7 +39,6 @@ class BaseDriver(object):
             raise PyZigBeeDenied("Driver is already open")
 
     def close(self):
-
         if self.is_open:
             self.is_open = False
             self.on_close()
@@ -46,7 +46,6 @@ class BaseDriver(object):
             raise PyZigBeeDenied("Driver is already closed")
 
     def write(self, data):
-
         if not self.is_open:
             raise PyZigBeeDenied("Driver is closed")
 
@@ -56,7 +55,6 @@ class BaseDriver(object):
             raise PyZigBeeFailed("failed to write data to driver (%s)" %  error)
 
     def read(self, to_read=None, stop_on=None):
-
         if not self.is_open:
             raise PyZigBeeDenied("Driver is closed")
 
@@ -66,6 +64,23 @@ class BaseDriver(object):
             raise PyZigBeeFailed("failed to read data from driver (%s)" %  error)
 
     def get_info(self):
-
         raise PyZigBeeOperationNotSupported("get_info: This method must be implemented by your driver")
 
+    def set_blocking_mode(self):
+
+        if not self.is_open:
+            raise PyZigBeeDenied("Driver is closed")
+
+        self.set_blocking()
+
+    def set_unblocking_mode(self, timeout=0):
+
+        if not self.is_open:
+            raise PyZigBeeDenied("Driver is closed")
+
+        try:
+            timeout = int(timeout)
+        except ValueError as error:
+            raise PyZigBeeBadFormatError("timeout passed to set_unblocking_mode must be an integer")
+
+        self.set_unblocking(timeout=timeout)
