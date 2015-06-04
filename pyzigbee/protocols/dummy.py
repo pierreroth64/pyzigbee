@@ -22,7 +22,7 @@ class DummyProtocol(BaseProtocol):
     def get_end_of_frame_sep(self):
         return "|"
 
-    def encode_get_dev_number(self):
+    def encode_get_dev_number(self, delay=5):
         return []
 
     def decode_dev_number(self, data):

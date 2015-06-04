@@ -22,7 +22,7 @@ class BaseProtocol(object):
     def get_end_of_frame_sep(self):
         raise PyZigBeeOperationNotSupported("get_end_of_frame_sep: This method must be implemented by your protocol")
 
-    def encode_get_dev_number(self):
+    def encode_get_dev_number(self, delay=5):
         raise PyZigBeeOperationNotSupported("encode_get_dev_number: This method must be implemented by your protocol")
 
     def decode_dev_number(self, data):

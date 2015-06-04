@@ -80,10 +80,15 @@ class PyZigBeeShell(cmd.Cmd):
 
     @handle_exception
     def do_scan(self, arg):
-        """Scan the network and print the found zigbee devices"""
+        """Scan the network and print the found zigbee devices
+
+        Optional arg: number of seconds to wait"""
+
+        if arg == "":
+            arg = 5
 
         with closing(self.gateway.open()) as gateway:
-            ids = gateway.scan()
+            ids = gateway.scan(delay=arg)
 
         for id in ids:
             print id

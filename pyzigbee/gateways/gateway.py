@@ -88,11 +88,11 @@ class Gateway(object):
         else:
             raise PyZigBeeFailed("Device did not reply")
 
-    def scan(self):
+    def scan(self, delay=5):
         """Scan the network and return a list of ZigBee IDs"""
 
         self.logger.debug("getting number of devices...")
-        sequence = self.protocol.encode_get_dev_number()
+        sequence = self.protocol.encode_get_dev_number(delay=delay)
         answer = self._get_answer(sequence)
         dev_nb = self.protocol.decode_dev_number(answer)
         self.logger.debug("%d device(s) on the network", dev_nb)

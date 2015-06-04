@@ -44,12 +44,14 @@ class OWNProtocol(BaseProtocol):
     def get_end_of_frame_sep(self):
         return "##"
 
-    def encode_get_dev_number(self):
-        """Build the frames sequence to get the number of devices"""
+    def encode_get_dev_number(self, delay=5):
+        """Build the frames sequence to get the number of devices
+
+        delay: number of seconds to wait for an answer"""
 
         return [ { "tx": "*13*65*##" },
                  { "rx": OWN_ACK },
-                 { "delay": 5 },
+                 { "delay": delay },
                  { "answer": ""} ]
 
     def decode_dev_number(self, data):
