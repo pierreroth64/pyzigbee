@@ -86,14 +86,15 @@ class OWNProtocol(BaseProtocol):
         """Build the frames sequence to get the firmware version of the gateway"""
 
         return [ { "tx": "*#13*%s*16##" % self._build_where_field(zigbee_id)},
-                 { "answer": ""} ]
+                 { "answer": ""},
+                 { "rx": OWN_ACK} ]
 
     def encode_get_hardware_version(self, zigbee_id=None):
         """Build the frames sequence to get the firmware version of the gateway"""
 
         return [ { "tx": "*#13*%s*17##" % self._build_where_field(zigbee_id) },
-                 { "rx": OWN_ACK},
-                 { "answer": ""} ]
+                 { "answer": ""},
+                 { "rx": OWN_ACK} ]
 
     def decode_firmware_version(self, data, zigbee_id=None):
         return self._decode_version(data, "16", zigbee_id)
