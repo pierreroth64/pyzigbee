@@ -15,6 +15,7 @@ from contextlib import closing
 from pyzigbee.gateways.factory import GatewayFactory
 from pyzigbee.core.exceptions import PyZigBeeException
 from pyzigbee import __version__
+from pyzigbee.shell.platform_srvc import get_platform_service
 
 try:
     from colorlog import basicConfig
@@ -48,8 +49,15 @@ class PyZigBeeShell(cmd.Cmd):
         self.gateway = GatewayFactory(conf_filename=self.conf_filename).create_gateway(ref="088328")
         self.logger = logging.getLogger("pyzigbee.shell")
         self.pp = pprint.PrettyPrinter(indent=4)
-        PyZigBeeShell.intro += "\ncurrent gateway: %s \n" % self.gateway.get_info()["description"]
-        PyZigBeeShell.intro += "configuration file: %s \n" % self.conf_filename
+        self.platform_srvc = get_platform_service()
+        PyZigBeeShell.intro += "\ngateway: %s \n" % self.gateway.get_info()["description"]
+        PyZigBeeShell.intro += "conf file: %s \n" % self.conf_filename
+        PyZigBeeShell.intro += "platform: %s \n" % self.platform_srvc
+
+    def do_clear(self, arg):
+        """Clear screen"""
+
+        self.platform_srvc.clear()
 
     @handle_exception
     def do_gw_info(self, arg):
