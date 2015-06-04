@@ -82,6 +82,7 @@ class Gateway(object):
                 time.sleep(delay)
             if "answer" in seq.keys():
                 answer = self.driver.read(stop_on=self.protocol.get_end_of_frame_sep())
+                self.protocol.check_answer(answer=answer)
 
         if answer is not None:
             return answer
