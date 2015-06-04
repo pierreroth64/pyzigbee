@@ -75,8 +75,7 @@ class Gateway(object):
             if "rx" in seq.keys():
                 data = self.driver.read(to_read=len(seq["rx"]))
                 if data != seq["rx"]:
-                    raise PyZigBeeBadFormatError("Frame error: received '%s' when " \
-                                                  "expected was '%s'" % (data, seq["rx"]))
+                    self.protocol.handle_error(expected=seq["rx"], received=data)
             if "delay" in seq.keys():
                 delay = int(seq["delay"])
                 self.logger.debug("sleeping for %d seconds...", delay)

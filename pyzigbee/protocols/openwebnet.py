@@ -9,6 +9,9 @@ import logging
 from pyzigbee.protocols.baseprotocol import BaseProtocol
 from pyzigbee.core.exceptions import PyZigBeeBadFormatError
 
+OWN_ACK = "*#*1##"
+OWN_NACK = "*#*0##"
+
 class OWNProtocol(BaseProtocol):
     """OWN protocol is in charge of decoding/encoding OpenWebNet frames"""
 
@@ -21,19 +24,31 @@ class OWNProtocol(BaseProtocol):
         else:
             return zigbee_id
 
-    def get_info(self):
+    def handle_error(expected, received):
+        """Handler called on error when expected data differs from received one"""
 
+        self.logger.warn("frame error (expected:%s , received: %s)", expected, received)
+        raise PyZigBeeBadFormatError("Frame error: received '%s' when " \
+                                      "expected was '%s'" % (received, expected))
+
+    def _raise_format_error(self, msg, data):
+
+        if data == OWN_NACK:
+            self.logger.debug("OWN: received NACK (%s)", OWN_NACK)
+        self.logger.warn("OWN format error: %s (data: %s)", msg, data)
+        raise PyZigBeeBadFormatError("OWN: %s (data: %s)" % (msg, data))
+
+    def get_info(self):
         return { "description": "OpenWebNet protocol" }
 
     def get_end_of_frame_sep(self):
-
         return "##"
 
     def encode_get_dev_number(self):
         """Build the frames sequence to get the number of devices"""
 
         return [ { "tx": "*13*65*##" },
-                 { "rx": "*#*1##" },
+                 { "rx": OWN_ACK },
                  { "delay": 5 },
                  { "answer": ""} ]
 
@@ -46,7 +61,7 @@ class OWNProtocol(BaseProtocol):
             self.logger.debug("number of devices: %d", dev_nb)
             return dev_nb
         else:
-            raise PyZigBeeBadFormatError("OWN: could not extract device number from frame: %s" % data)
+            self._raise_format_error("could not extract device number from frame", data)
 
     def encode_get_dev_id(self, dev_index):
         """Build the frames sequence to get the device ID from a given device index"""
@@ -63,7 +78,7 @@ class OWNProtocol(BaseProtocol):
             self.logger.debug("device ID: %s", dev_id)
             return dev_id
         else:
-            raise PyZigBeeBadFormatError("OWN: could not extract device ID from frame: %s" % data)
+            self._raise_format_error("could not extract device ID from frame", data)
 
     def encode_get_firmware_version(self, zigbee_id=None):
         """Build the frames sequence to get the firmware version of the gateway"""
@@ -75,15 +90,13 @@ class OWNProtocol(BaseProtocol):
         """Build the frames sequence to get the firmware version of the gateway"""
 
         return [ { "tx": "*#13*%s*17##" % self._build_where_field(zigbee_id) },
-                 { "rx": "*#*1##"},
+                 { "rx": OWN_ACK},
                  { "answer": ""} ]
 
     def decode_firmware_version(self, data, zigbee_id=None):
-
         return self._decode_version(data, "16", zigbee_id)
 
     def decode_hardware_version(self, data, zigbee_id=None):
-
         return self._decode_version(data, "17", zigbee_id)
 
     def _decode_version(self, data, code="16", zigbee_id=None):
@@ -96,4 +109,4 @@ class OWNProtocol(BaseProtocol):
             self.logger.debug("version: %s", version)
             return version
         else:
-            raise PyZigBeeBadFormatError("OWN: could not extract gateway version from frame: %s" % data)
+            self._raise_format_error("could not extract version from frame", data)
