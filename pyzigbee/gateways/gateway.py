@@ -12,8 +12,7 @@ from pyzigbee.drivers.basedriver import BaseDriver
 from pyzigbee.protocols.baseprotocol import BaseProtocol
 
 class Gateway(object):
-    """Gateway base class to be inherited from when implementing a real GW
-    """
+    """Gateways abstracts access to real devices"""
 
     def __init__(self, driver, protocol, description=""):
 
@@ -66,7 +65,7 @@ class Gateway(object):
         self.driver.close()
         return self
 
-    def _get_answer(self, sequence):
+    def _run_sequence(self, sequence):
 
         answer =  None
         for seq in sequence:
@@ -83,7 +82,11 @@ class Gateway(object):
             if "answer" in seq.keys():
                 answer = self.driver.read(stop_on=self.protocol.get_end_of_frame_sep())
                 self.protocol.check_answer(answer=answer)
+        return answer
 
+    def _get_answer(self, sequence):
+
+        answer =  self._run_sequence(sequence)
         if answer is not None:
             return answer
         else:
@@ -139,7 +142,7 @@ class Gateway(object):
                                       % (dev_id, zigbee_id))
 
         sequence = self.protocol.encode_binding_request(zigbee_id)
-        self._get_answer(sequence)
+        self._run_sequence(sequence)
 
 
 
