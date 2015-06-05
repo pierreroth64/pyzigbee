@@ -29,7 +29,9 @@ SUPPORTED_GW = {
 }
 
 class GatewayFactory(object):
-    """Gateway factory which creates GW instances from a product reference"""
+    """
+    Gateway factory which creates GW instances from a product reference
+    """
 
     def __init__(self, conf_filename=None):
         self.conf_reader = ConfReaderFactory.create_conf_reader(conf_filename)
@@ -38,9 +40,7 @@ class GatewayFactory(object):
         return ref.replace(" ", "")
 
     def create_gateway(self, ref, conf_filename=None):
-
         ref = self._sanitize_ref(ref)
-
         if ref in SUPPORTED_GW.keys():
             try:
                 args = self.conf_reader.override_args_with_conf(ref, SUPPORTED_GW[ref]['driver']['args'])
@@ -49,12 +49,11 @@ class GatewayFactory(object):
                 description = SUPPORTED_GW[ref]['description']
                 return Gateway(driver, protocol, description)
             except KeyError as error:
-                raise PyZigBeeBadFormatError("Entry for %s is malformed (%s)" % (ref, error))
+                raise PyZigBeeBadFormat("Entry for %s is malformed (%s)" % (ref, error))
         else:
             raise PyZigBeeBadArgument("%s is not supported" % ref)
 
     def get_supported_refs(self):
-
         supported = {}
         for gw_k, gw_v in SUPPORTED_GW.items():
             supported[gw_k] = gw_v['description']

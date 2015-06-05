@@ -5,7 +5,9 @@
 # All rights reserved
 
 class DoNothingConfReader(object):
-    """Reader for configuration: does not impact args"""
+    """
+    Reader for configuration: does not impact args
+    """
 
     def __init__(self):
         pass

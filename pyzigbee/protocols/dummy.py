@@ -7,21 +7,27 @@
 from pyzigbee.protocols.baseprotocol import BaseProtocol
 
 class DummyProtocol(BaseProtocol):
-    """Dummy protocol mainly used for testing"""
+    """
+    Dummy protocol mainly used for testing
+    """
 
     def __init__(self):
         pass
 
     def handle_error(self, expected, received):
-        """Handler called on error when expected data differs from received one"""
+        """
+        Handler called on error when expected data differs from received one
+        """
         pass
 
     def check_answer(self, answer):
-        """Handler called on received answer"""
+        """
+        Handler called on received answer
+        """
         return answer
 
     def get_info(self):
-        return { "description": "Dummy protocol" }
+        return {"description": "Dummy protocol"}
 
     def get_end_of_frame_sep(self):
         return "|"

@@ -4,14 +4,14 @@
 # Copyright (C) 2015 Legrand France
 # All rights reserved
 from nose.tools import assert_raises, assert_true, assert_false, assert_equal
-
 from pyzigbee.drivers.dummydriver import DummyDriver
-from pyzigbee.core.exceptions import PyZigBeeDenied, PyZigBeeBadFormatError
+from pyzigbee.core.exceptions import PyZigBeeDenied, PyZigBeeBadFormat
+
 
 class TestDummyDriver:
 
     def setup(self):
-        self.drv =  DummyDriver()
+        self.drv = DummyDriver()
 
     def tearDown(self):
         self.drv = None
@@ -58,7 +58,11 @@ class TestDummyDriver:
 
     def test_set_unblocking_wrong_format(self):
         self.drv.open()
-        assert_raises(PyZigBeeBadFormatError, self.drv.set_unblocking_mode, timeout="bad format")
+        assert_raises(PyZigBeeBadFormat,
+                      self.drv.set_unblocking_mode,
+                      timeout="bad format")
 
     def test_set_unblocking_but_not_open(self):
-        assert_raises(PyZigBeeDenied, self.drv.set_unblocking_mode, timeout=3)
+        assert_raises(PyZigBeeDenied,
+                      self.drv.set_unblocking_mode,
+                      timeout=3)

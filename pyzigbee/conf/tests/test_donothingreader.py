@@ -8,6 +8,7 @@ from nose.tools import assert_equal
 
 from pyzigbee.conf.donothingreader import DoNothingConfReader
 
+
 class TestDoNothingConfReader:
 
     def setup(self):
@@ -24,8 +25,6 @@ class TestDoNothingConfReader:
                     }
 
     def test_conf_reader_no_arg_overriden(self):
-
         args = self.conf["088328"]["driver"]["args"]
-        assert_equal(args, self.conf_reader.override_args_with_conf("088328", args))
-
-
+        assert_equal(args,
+                     self.conf_reader.override_args_with_conf("088328", args))

@@ -6,25 +6,34 @@
 
 import os
 from nose.tools import assert_raises, assert_true
-
 from pyzigbee.conf.factory import ConfReaderFactory
 from pyzigbee.conf.donothingreader import DoNothingConfReader
 from pyzigbee.conf.jsonreader import JSONConfReader
-from pyzigbee.core.exceptions import PyZigBeeBadFormatError, PyZigBeeResourceNotFound
+from pyzigbee.core.exceptions import PyZigBeeBadFormat
+from pyzigbee.core.exceptions import PyZigBeeResourceNotFound
+
 
 class TestConfReaderFactory:
 
-    def test_conf_reader_create_json(self):
+    def setup(self):
+        self.current_dir = os.path.dirname(os.path.abspath(__file__))
 
-        conf_filename = os.path.join(os.path.dirname(os.path.abspath(__file__)), "conf.json")
-        assert_true(isinstance(ConfReaderFactory.create_conf_reader(conf_filename=conf_filename), JSONConfReader))
+    def test_conf_reader_create_json(self):
+        filename = os.path.join(self.current_dir, "conf.json")
+        reader = ConfReaderFactory.create_conf_reader(conf_filename=filename)
+        assert_true(isinstance(reader, JSONConfReader))
 
     def test_conf_reader_create_none(self):
-        assert_true(isinstance(ConfReaderFactory.create_conf_reader(), DoNothingConfReader))
+        reader = ConfReaderFactory.create_conf_reader()
+        assert_true(isinstance(reader, DoNothingConfReader))
 
     def test_conf_reader_create_missing_key(self):
-        conf_filename = os.path.join(os.path.dirname(os.path.abspath(__file__)), "conf_missing.json")
-        assert_raises(PyZigBeeBadFormatError, ConfReaderFactory.create_conf_reader, conf_filename)
+        conf_filename = os.path.join(self.current_dir, "conf_missing.json")
+        assert_raises(PyZigBeeBadFormat,
+                      ConfReaderFactory.create_conf_reader,
+                      conf_filename)
 
     def test_conf_reader_create_file_not_found(self):
-        assert_raises(PyZigBeeResourceNotFound, ConfReaderFactory.create_conf_reader, "not_found.json")
+        assert_raises(PyZigBeeResourceNotFound,
+                      ConfReaderFactory.create_conf_reader,
+                      "not_found.json")

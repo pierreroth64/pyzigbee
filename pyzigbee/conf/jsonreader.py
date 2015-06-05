@@ -6,11 +6,13 @@
 
 import json
 import logging
+from pyzigbee.core.exceptions import PyZigBeeBadFormat
 
-from pyzigbee.core.exceptions import PyZigBeeBadFormatError
 
 class JSONConfReader(object):
-    """Reader for configuration: JSON format"""
+    """
+    Reader for configuration: JSON format
+    """
 
     def __init__(self, conf_filename):
         self.conf_filename = conf_filename
@@ -22,12 +24,13 @@ class JSONConfReader(object):
                 for ref in self.conf.keys():
                     self._check_format(self.conf[ref])
         except ValueError as error:
-            raise PyZigBeeBadFormatError("Could not load JSON data from: %s" %  conf_filename)
+            raise PyZigBeeBadFormat("Could not load JSON data from: %s"
+                                         % conf_filename)
 
     def _check_format(self, conf):
         if "driver" not in conf.keys() or "args" not in conf["driver"].keys():
-            raise PyZigBeeBadFormatError("missing 'driver' and/or 'args' JSON keys in: %s" \
-                                         % self.conf_filename)
+            raise PyZigBeeBadFormat("missing 'driver' and/or 'args'"
+                                         " JSON keys in: %s" % self.conf_filename)
 
     def override_args_with_conf(self, ref, args):
         if ref not in self.conf.keys():

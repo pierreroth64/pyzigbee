@@ -6,67 +6,59 @@
 
 import time
 import logging
-
 from pyzigbee.core.exceptions import *
 from pyzigbee.drivers.basedriver import BaseDriver
 from pyzigbee.protocols.baseprotocol import BaseProtocol
 
 class Gateway(object):
-    """Gateways abstracts access to real devices"""
+    """
+    Gateways abstracts access to real devices
+    """
 
     def __init__(self, driver, protocol, description=""):
-
         self.set_driver(driver)
         self.set_protocol(protocol)
         self.description = description
         self.logger = logging.getLogger(__name__)
 
     def set_driver(self, driver):
-
         if isinstance(driver, BaseDriver):
             self.driver = driver
         else:
-            raise PyZigBeeBadArgument("%s is not a subclass of BaseDriver" % driver)
+            raise PyZigBeeBadArgument("%s is not a subclass of BaseDriver"
+                                      % driver)
 
     def set_protocol(self, protocol):
-
         if isinstance(protocol, BaseProtocol):
             self.protocol = protocol
         else:
-            raise PyZigBeeBadArgument("%s is not a subclass of BaseProtocol" % protocol)
+            raise PyZigBeeBadArgument("%s is not a subclass of BaseProtocol"
+                                      % protocol)
 
     def get_info(self):
-
-        info = {}
-        info['description'] = self.description
-        info['driver'] = self.driver.get_info()
-        info['protocol'] = self.protocol.get_info()
-        return info
+        return {'description': self.description,
+                'driver': self.driver.get_info(),
+                'protocol': self.protocol.get_info()}
 
     def get_firmware_version(self, zigbee_id=None):
-
         sequence = self.protocol.encode_get_firmware_version(zigbee_id)
         answer = self._get_answer(sequence)
         return self.protocol.decode_firmware_version(answer, zigbee_id)
 
     def get_hardware_version(self, zigbee_id=None):
-
         sequence = self.protocol.encode_get_hardware_version(zigbee_id)
         answer = self._get_answer(sequence)
         return self.protocol.decode_hardware_version(answer, zigbee_id)
 
     def open(self):
-
         self.driver.open()
         return self
 
     def close(self):
-
         self.driver.close()
         return self
 
     def _run_sequence(self, sequence):
-
         answer =  None
         for seq in sequence:
             if "tx" in seq.keys():
@@ -85,7 +77,6 @@ class Gateway(object):
         return answer
 
     def _get_answer(self, sequence):
-
         answer =  self._run_sequence(sequence)
         if answer is not None:
             return answer
@@ -93,8 +84,9 @@ class Gateway(object):
             raise PyZigBeeFailed("Device did not reply")
 
     def scan(self, delay=5):
-        """Scan the network and return a list of ZigBee IDs"""
-
+        """
+        Scan the network and return a list of ZigBee IDs
+        """
         self.driver.set_unblocking_mode()
 
         self.logger.debug("getting number of devices...")
@@ -103,35 +95,39 @@ class Gateway(object):
         dev_nb = self.protocol.decode_dev_number(answer)
         self.logger.debug("%d device(s) on the network", dev_nb)
 
-        dev_ids = []
         # we can now loop over the devices
+        dev_ids = []
         for i in range(0, dev_nb):
-            self.logger.debug("getting device ID at index %d...", i)
-            sequence = self.protocol.encode_get_dev_id(dev_index=i)
-            answer = self._get_answer(sequence)
-            dev_id = self.protocol.decode_dev_id(answer)
-            self.logger.debug("device ID at index %d: %s", i, dev_id)
-            dev_ids.append(dev_id)
-
+            try:
+                self.logger.debug("getting device ID at index %d...", i)
+                sequence = self.protocol.encode_get_dev_id(dev_index=i)
+                answer = self._get_answer(sequence)
+                dev_id = self.protocol.decode_dev_id(answer)
+                self.logger.debug("device ID at index %d: %s", i, dev_id)
+                dev_ids.append(dev_id)
+            except PyZigBeeException as error:
+                self.logger.warn("failed to get device ID at index %d (%s)"
+                                 % (i, error))
         return dev_ids
 
     def receive(self, timeout=None):
-        """Receive frame from the network
+        """
+        Receive frame from the network
 
-        Optional arg: read timeout in seconds for non blocking mode"""
-
+        Optional arg: read timeout in seconds for non blocking mode
+        """
         if timeout is None or timeout == "":
             self.driver.set_blocking_mode()
         else:
             self.driver.set_unblocking_mode(timeout=timeout)
         return self.driver.read(stop_on=self.protocol.get_end_of_frame_sep())
 
-
     def bind(self, zigbee_id):
-        """Bind procedure
+        """
+        Bind procedure
 
-        The zigbee device"""
-
+        arg: the zigbee device to bind with
+        """
         self.driver.set_blocking_mode()
 
         answer = self.driver.read(stop_on=self.protocol.get_end_of_frame_sep())
@@ -140,9 +136,5 @@ class Gateway(object):
         if dev_id != zigbee_id:
             raise PyZigBeeBadArgument("Received binding from ID: %s (expected was: %s)" \
                                       % (dev_id, zigbee_id))
-
         sequence = self.protocol.encode_binding_request(zigbee_id)
         self._run_sequence(sequence)
-
-
-

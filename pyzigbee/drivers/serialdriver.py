@@ -15,7 +15,8 @@ READ_TIMEOUT = 3
 WRITE_TIMEOUT = 5
 
 class SerialDriver(BaseDriver):
-    """Serial driver to communicate with underlying hardware
+    """
+    Serial driver to communicate with underlying hardware
 
     keyword args are:
     - port: the serial port such as /dev/tty3 or COM3
@@ -43,12 +44,18 @@ class SerialDriver(BaseDriver):
     def on_open(self):
         try:
             self.logger.debug("opening serial port %s...", self.port)
-            self.dev = serial.Serial(port=self.port, baudrate=self.baudrate, parity=self.parity,
-                                     timeout=READ_TIMEOUT, writeTimeout=WRITE_TIMEOUT)
-            self.logger.debug("serial port %s open (%s)", self.port, self._is_blocking_mode_str())
+            self.dev = serial.Serial(port=self.port,
+                                     baudrate=self.baudrate,
+                                     parity=self.parity,
+                                     timeout=READ_TIMEOUT,
+                                     writeTimeout=WRITE_TIMEOUT)
+            self.logger.debug("serial port %s open (%s)",
+                              self.port, self._is_blocking_mode_str())
         except (OSError, serial.serialutil.SerialException) as error:
-            self.logger.error('error when opening serial port %s (%s)', self.port, error)
-            raise PyZigBeeFailed(msg="Failed to open serial port %s (%s)" % (self.port, error))
+            self.logger.error('error when opening serial port %s (%s)',
+                              self.port, error)
+            raise PyZigBeeFailed(msg="Failed to open serial port %s (%s)"
+                                 % (self.port, error))
 
     def on_close(self):
         self.logger.debug("closed serial port %s.", self.port)
@@ -83,11 +90,10 @@ class SerialDriver(BaseDriver):
         return data
 
     def get_info(self):
-        return { "description": "Serial driver",
-                 "port": self.port,
-                 "baudrate": self.baudrate,
-                 "parity": self.parity,
-               }
+        return {"description": "Serial driver",
+                "port": self.port,
+                "baudrate": self.baudrate,
+                "parity": self.parity}
 
     def set_blocking(self):
         if self.dev.timeout is not None:
@@ -106,4 +112,4 @@ class SerialDriver(BaseDriver):
                 self.logger.debug("serial port %s already set to non-blocking mode (timeout: %s)",
                                   self.port, self.dev.timeout)
         except ValueError as error:
-            raise PyZigBeeBadFormatError("timeout must be an integer")
+            raise PyZigBeeBadFormat("timeout must be an integer")
