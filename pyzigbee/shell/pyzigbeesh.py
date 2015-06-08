@@ -29,7 +29,7 @@ def handle_exception(func):
         try:
             return func(*args, **kwargs)
         except PyZigBeeException as error:
-            print "Error:", error.msg
+            print "Error: %s" % error.msg
     inner.__doc__ = func.__doc__
     return inner
 
