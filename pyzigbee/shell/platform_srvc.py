@@ -46,6 +46,7 @@ class WindowsService(PlatformService):
     def clear(self):
         os.system('cls')
 
+
 def create_platform_service():
     """
     Create a platform service according to underlying system

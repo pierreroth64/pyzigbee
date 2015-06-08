@@ -10,6 +10,7 @@ from pyzigbee.core.exceptions import *
 from pyzigbee.drivers.basedriver import BaseDriver
 from pyzigbee.protocols.baseprotocol import BaseProtocol
 
+
 class Gateway(object):
     """
     Gateways abstracts access to real devices
@@ -59,7 +60,7 @@ class Gateway(object):
         return self
 
     def _run_sequence(self, sequence):
-        answer =  None
+        answer = None
         for seq in sequence:
             if "tx" in seq.keys():
                 self.driver.write(seq["tx"])
@@ -77,7 +78,7 @@ class Gateway(object):
         return answer
 
     def _get_answer(self, sequence):
-        answer =  self._run_sequence(sequence)
+        answer = self._run_sequence(sequence)
         if answer is not None:
             return answer
         else:

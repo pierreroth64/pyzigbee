@@ -7,6 +7,7 @@
 """This module contains all the exceptions that may raise
     when using the pyzigbee library"""
 
+
 class PyZigBeeException(Exception):
     """
     Base class for pyzigbee exceptions

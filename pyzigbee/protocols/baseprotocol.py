@@ -6,6 +6,7 @@
 
 from pyzigbee.core.exceptions import PyZigBeeNotSupported
 
+
 class BaseProtocol(object):
     """
     Base protocol inherited by all the protocols

@@ -7,6 +7,7 @@
 from pyzigbee.core.exceptions import PyZigBeeDenied
 from pyzigbee.drivers.basedriver import BaseDriver
 
+
 class DummyDriver(BaseDriver):
     """
     Dummy driver mainly used for testing

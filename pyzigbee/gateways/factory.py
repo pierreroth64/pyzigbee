@@ -28,6 +28,7 @@ SUPPORTED_GW = {
     },
 }
 
+
 class GatewayFactory(object):
     """
     Gateway factory which creates GW instances from a product reference
@@ -43,7 +44,8 @@ class GatewayFactory(object):
         ref = self._sanitize_ref(ref)
         if ref in SUPPORTED_GW.keys():
             try:
-                args = self.conf_reader.override_args_with_conf(ref, SUPPORTED_GW[ref]['driver']['args'])
+                default_args = SUPPORTED_GW[ref]['driver']['args']
+                args = self.conf_reader.override_args_with_conf(ref, default_args)
                 driver = SUPPORTED_GW[ref]['driver']['class'](**args)
                 protocol = SUPPORTED_GW[ref]['protocol']['class']()
                 description = SUPPORTED_GW[ref]['description']

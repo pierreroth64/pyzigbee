@@ -10,3 +10,4 @@ install:
 script:
   - make test
   - make doc
+  - make pep8

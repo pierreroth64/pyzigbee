@@ -6,6 +6,7 @@
 
 from pyzigbee.protocols.baseprotocol import BaseProtocol
 
+
 class DummyProtocol(BaseProtocol):
     """
     Dummy protocol mainly used for testing

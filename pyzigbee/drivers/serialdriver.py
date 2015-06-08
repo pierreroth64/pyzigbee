@@ -14,6 +14,7 @@ from pyzigbee.drivers.basedriver import BaseDriver
 READ_TIMEOUT = 3
 WRITE_TIMEOUT = 5
 
+
 class SerialDriver(BaseDriver):
     """
     Serial driver to communicate with underlying hardware
@@ -80,7 +81,7 @@ class SerialDriver(BaseDriver):
                 while not endof:
                     byte = self.dev.read(size=1)
                     data += byte
-                    #self.logger.debug("received byte: %s", byte)
+                    # self.logger.debug("received byte: %s", byte)
                     if re.match(".*%s" % stop_pattern, data):
                         endof = True
             else:
