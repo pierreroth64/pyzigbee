@@ -175,7 +175,7 @@ def get_conf_filename(options):
     """
     if options.conf_filename is None:
         current_dir = os.path.dirname(os.path.abspath(__file__))
-        default_conf = os.path.join(current_dif, "conf.json")
+        default_conf = os.path.join(current_dir, "conf.json")
         if os.path.exists(default_conf):
             conf_filename = default_conf
         else:
