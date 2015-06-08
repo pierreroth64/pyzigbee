@@ -195,6 +195,9 @@ def main():
                       help="set log level to LEVEL", metavar="LEVEL")
     parser.add_option("-c", "--conf", dest="conf_filename",
                       help="configuration FILENAME", metavar="FILENAME")
+    parser.add_option("-k", "--check", dest="check", action="store_true",
+                      default=False,
+                      help="only checks that shell app works correctly")
     (options, args) = parser.parse_args()
     if options.debug_level is not None:
         level = int(options.debug_level)
@@ -204,10 +207,19 @@ def main():
     basicConfig(level=level, format=FORMAT)
 
     try:
-        PyZigBeeShell(conf_filename=get_conf_filename(options)).cmdloop()
+        shell = PyZigBeeShell(conf_filename=get_conf_filename(options))
+        if options.check:
+            sys.exit(0)
+        shell.cmdloop()
+    except PyZigBeeException as error:
+        print "Error:", error
+        sys.exit(2)
     except KeyboardInterrupt:
         print "Bye!"
         sys.exit(0)
+    except Exception as error:
+        print "Uncaught error:", error
+        sys.exit(1)
 
 if __name__ == '__main__':
     main()
