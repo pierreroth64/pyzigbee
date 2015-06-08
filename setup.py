@@ -4,28 +4,33 @@
 # Copyright (C) 2015 Legrand France
 # All rights reserved
 
+"""
+Setup script to install the pyzigbee library
+"""
+
 from setuptools import setup, find_packages
 from pyzigbee import __version__
 
 setup(
-    name = 'pyzigbee',
-    version = __version__,
-    description = 'pyzigbee is a python library that lets you to talk to Legrand zigbee devices through gateways',
-    long_description = open("README.md").read(),
-    author = 'Pierre Roth',
-    author_email = 'pierre.roth@legrand.fr',
-    url = 'https://github.com/pierreroth/pyzigbee',
-    license = 'MIT License',
-    packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
-    install_requires = [
+    name='pyzigbee',
+    version=__version__,
+    description='pyzigbee is a python library that lets you to talk to'
+                ' Legrand zigbee devices through gateways',
+    long_description=open("README.md").read(),
+    author='Pierre Roth',
+    author_email='pierre.roth@legrand.fr',
+    url='https://github.com/pierreroth/pyzigbee',
+    license='MIT License',
+    packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
+    install_requires=[
         "pyserial",
     ],
-    entry_points = {
+    entry_points={
         'console_scripts': [
-            'pyzigbeesh = pyzigbee.shell.pyzigbeesh:main',
+            'pyzigbeesh=pyzigbee.shell.pyzigbeesh:main',
         ]
     },
-    extras_require = {
+    extras_require={
         'windows': [
             'colorama'
         ],
@@ -33,7 +38,7 @@ setup(
             'colorlog'
         ]
     },
-    classifiers = [
+    classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
         'Intended Audience :: Developers',
