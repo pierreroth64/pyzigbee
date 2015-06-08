@@ -20,7 +20,8 @@ class DummyDriver(BaseDriver):
         self.data = None
 
     def get_info(self):
-        return {"description": "Dummy driver (reading from it what you previously wrote to it)"}
+        return {"description": "Dummy driver"
+                               " (reading from it what you previously wrote to it)"}
 
     def on_open(self):
         pass
