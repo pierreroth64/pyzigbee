@@ -23,6 +23,8 @@ pep8:
 	@echo "Cheking PEP8 coding style..."
 	@pep8 . --exclude="docs,test*" --max-line-length=90 --ignore=E127,E265
 
+check: test doc pep8
+
 clean: clean-bytecode clean-doc clean-egg clean-build
 
 clean-bytecode:

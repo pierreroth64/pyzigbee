@@ -31,3 +31,10 @@ Documentation
 To build the documentation:
 
     make doc
+
+Contributing
+------------
+
+You may want to submit some pull requests. Make sure the following command runs without any error:
+
+    make check
