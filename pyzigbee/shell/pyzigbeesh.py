@@ -123,7 +123,17 @@ class PyZigBeeShell(cmd.Cmd):
         arg: is the zigbee ID to bind with
         """
         with closing(self.gateway.open()) as gateway:
-            print gateway.bind(zigbee_id=arg)
+            gateway.bind(zigbee_id=arg)
+
+    @handle_exception
+    def do_unbind(self, arg):
+        """
+        Unbind procecure
+
+        arg: is the zigbee ID to unbind from
+        """
+        with closing(self.gateway.open()) as gateway:
+            gateway.unbind(zigbee_id=arg)
 
     @handle_exception
     def do_version(self, arg):

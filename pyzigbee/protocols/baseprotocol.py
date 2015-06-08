@@ -76,3 +76,7 @@ class BaseProtocol(object):
     def encode_binding_request(self, zigbee_id):
         raise PyZigBeeNotSupported("encode_binding_request: This method must be"
                                    " implemented by your protocol")
+
+    def encode_unbinding_request(self, zigbee_id):
+        raise PyZigBeeNotSupported("encode_unbinding_request: This method must be"
+                                   " implemented by your protocol")

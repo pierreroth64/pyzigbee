@@ -123,6 +123,18 @@ class Gateway(object):
             self.driver.set_unblocking_mode(timeout=timeout)
         return self.driver.read(stop_on=self.protocol.get_end_of_frame_sep())
 
+    def _decode_binding(self, zigbee_id):
+        """
+        Decode binding request from device
+        """
+        answer = self.driver.read(stop_on=self.protocol.get_end_of_frame_sep())
+        dev_id = self.protocol.decode_binding_id(answer)
+
+        if dev_id != zigbee_id:
+            raise PyZigBeeBadArgument("Received un/binding request from ID: %s"
+                                      " (expected was: %s)" % (dev_id, zigbee_id))
+        return dev_id
+
     def bind(self, zigbee_id):
         """
         Bind procedure
@@ -130,12 +142,17 @@ class Gateway(object):
         arg: the zigbee device to bind with
         """
         self.driver.set_blocking_mode()
+        dev_id = self._decode_binding(zigbee_id)
+        sequence = self.protocol.encode_binding_request(dev_id)
+        self._run_sequence(sequence)
 
-        answer = self.driver.read(stop_on=self.protocol.get_end_of_frame_sep())
-        dev_id = self.protocol.decode_binding_id(answer)
+    def unbind(self, zigbee_id):
+        """
+        Unbind procedure
 
-        if dev_id != zigbee_id:
-            raise PyZigBeeBadArgument("Received binding from ID: %s (expected was: %s)" \
-                                      % (dev_id, zigbee_id))
-        sequence = self.protocol.encode_binding_request(zigbee_id)
+        arg: the zigbee device to unbind from
+        """
+        self.driver.set_blocking_mode()
+        dev_id = self._decode_binding(zigbee_id)
+        sequence = self.protocol.encode_unbinding_request(dev_id)
         self._run_sequence(sequence)

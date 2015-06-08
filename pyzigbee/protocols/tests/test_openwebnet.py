@@ -5,7 +5,7 @@
 # All rights reserved
 
 from nose.tools import assert_raises, assert_true, assert_false, assert_equal
-from pyzigbee.protocols.openwebnet import OWNProtocol
+from pyzigbee.protocols.openwebnet import OWNProtocol, OWN_ACK
 from pyzigbee.core.exceptions import PyZigBeeDenied
 
 
@@ -49,3 +49,15 @@ class TestOWNProtocol:
 
     def test_decode_binding_id(self):
         assert_equal("412300024", self.protocol.decode_binding_id(data="*25*35*412300024#9##"))
+
+    def test_encode_binding_request(self):
+        encoded_sequence = self.protocol.encode_binding_request(zigbee_id="12335566")
+        assert_equal([{"tx": "*25*33*12335566#9##"},
+                      {"rx": OWN_ACK},
+                      {"rx": "*25*36*12335566#9##"}], encoded_sequence)
+
+    def test_encode_unbinding_request(self):
+        encoded_sequence = self.protocol.encode_unbinding_request(zigbee_id="778123")
+        assert_equal([{"tx": "*25*34*778123#9##"},
+                      {"rx": OWN_ACK},
+                      {"rx": "*25*36*778123#9##"}], encoded_sequence)

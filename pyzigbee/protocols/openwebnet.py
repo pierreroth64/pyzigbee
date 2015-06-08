@@ -153,3 +153,12 @@ class OWNProtocol(BaseProtocol):
         return [{"tx": "*25*33*%s#9##" % zigbee_id},
                 {"rx": OWN_ACK},
                 {"rx": "*25*36*%s#9##" % zigbee_id}]
+
+    def encode_unbinding_request(self, zigbee_id):
+        """
+        Encode unbinding request for a given zigbee ID
+        """
+        zigbee_id = self._build_where_field(zigbee_id)
+        return [{"tx": "*25*34*%s#9##" % zigbee_id},
+                {"rx": OWN_ACK},
+                {"rx": "*25*36*%s#9##" % zigbee_id}]
