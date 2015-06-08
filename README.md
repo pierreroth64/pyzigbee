@@ -2,6 +2,7 @@ pyzigbee is a library that lets to talk to Legrand zigbee devices through gatewa
 
 [![Build Status](https://travis-ci.org/pierreroth/pyzigbee.svg?branch=master)](https://travis-ci.org/pierreroth/pyzigbee)
 
+[![Build status](https://ci.appveyor.com/api/projects/status/pxiciuj8ikefmx1b?svg=true)](https://ci.appveyor.com/project/pierreroth/pyzigbee)
 
 Installation
 ------------
