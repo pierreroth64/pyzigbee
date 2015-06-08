@@ -23,14 +23,16 @@ except ImportError:
     from logging import basicConfig
     FORMAT = '%(asctime)s:%(name)s:%(levelname)s: %(message)s'
 
+
 def handle_exception(func):
     def inner(*args, **kwargs):
         try:
             return func(*args, **kwargs)
         except PyZigBeeException as error:
             print "Error:", error.msg
-    inner.__doc__= func.__doc__
+    inner.__doc__ = func.__doc__
     return inner
+
 
 class PyZigBeeShell(cmd.Cmd):
     """
@@ -48,7 +50,8 @@ class PyZigBeeShell(cmd.Cmd):
     def __init__(self, conf_filename=None):
         cmd.Cmd.__init__(self)
         self.conf_filename = conf_filename
-        self.gateway = GatewayFactory(conf_filename=self.conf_filename).create_gateway(ref="088328")
+        self.gateway = GatewayFactory(conf_filename=self.conf_filename) \
+            .create_gateway(ref="088328")
         self.logger = logging.getLogger("pyzigbee.shell")
         self.pp = pprint.PrettyPrinter(indent=4)
         self.platform_srvc = create_platform_service()
@@ -83,7 +86,8 @@ class PyZigBeeShell(cmd.Cmd):
 
         arg: gateway reference
         """
-        self.gateway = GatewayFactory(conf_filename=self.conf_filename).create_gateway(ref=ref)
+        self.gateway = GatewayFactory(conf_filename=self.conf_filename)\
+            .create_gateway(ref=ref)
 
     @handle_exception
     def do_scan(self, arg):
@@ -164,12 +168,14 @@ class PyZigBeeShell(cmd.Cmd):
         """
         self.gateway.driver.close()
 
+
 def get_conf_filename(options):
     """
     Return a configuration filename according to given options
     """
     if options.conf_filename is None:
-        default_conf = os.path.join(os.path.dirname(os.path.abspath(__file__)), "conf.json")
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        default_conf = os.path.join(current_dif, "conf.json")
         if os.path.exists(default_conf):
             conf_filename = default_conf
         else:
@@ -182,6 +188,7 @@ def get_conf_filename(options):
             sys.exit(1)
     return conf_filename
 
+
 def main():
     parser = OptionParser()
     parser.add_option("-d", "--debug", dest="debug_level",
@@ -189,7 +196,11 @@ def main():
     parser.add_option("-c", "--conf", dest="conf_filename",
                       help="configuration FILENAME", metavar="FILENAME")
     (options, args) = parser.parse_args()
-    level = int(options.debug_level) if options.debug_level is not None else logging.CRITICAL
+    if options.debug_level is not None:
+        level = int(options.debug_level)
+    else:
+        level = logging.CRITICAL
+
     basicConfig(level=level, format=FORMAT)
 
     try:
