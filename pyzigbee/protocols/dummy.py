@@ -62,3 +62,6 @@ class DummyProtocol(BaseProtocol):
 
     def encode_binding_request(self, zigbee_id):
         return []
+
+    def encode_unbinding_request(self, zigbee_id):
+        return []

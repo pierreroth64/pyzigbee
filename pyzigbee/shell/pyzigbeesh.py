@@ -29,7 +29,7 @@ def handle_exception(func):
         try:
             return func(*args, **kwargs)
         except PyZigBeeException as error:
-            print "Error:", error.msg
+            print("Error: %s", error.msg)
     inner.__doc__ = func.__doc__
     return inner
 
@@ -103,7 +103,7 @@ class PyZigBeeShell(cmd.Cmd):
             ids = gateway.scan(delay=arg)
 
         for id in ids:
-            print id
+            print(id)
 
     @handle_exception
     def do_receive(self, arg):
@@ -113,7 +113,7 @@ class PyZigBeeShell(cmd.Cmd):
         Optional arg: number of seconds to block (no arg means infinite)
         """
         with closing(self.gateway.open()) as gateway:
-            print gateway.receive(timeout=arg)
+            print(gateway.receive(timeout=arg))
 
     @handle_exception
     def do_bind(self, arg):
@@ -123,7 +123,17 @@ class PyZigBeeShell(cmd.Cmd):
         arg: is the zigbee ID to bind with
         """
         with closing(self.gateway.open()) as gateway:
-            print gateway.bind(zigbee_id=arg)
+            gateway.bind(zigbee_id=arg)
+
+    @handle_exception
+    def do_unbind(self, arg):
+        """
+        Unbind procecure
+
+        arg: is the zigbee ID to unbind from
+        """
+        with closing(self.gateway.open()) as gateway:
+            gateway.unbind(zigbee_id=arg)
 
     @handle_exception
     def do_version(self, arg):
@@ -133,8 +143,8 @@ class PyZigBeeShell(cmd.Cmd):
         Optional arg: zigbee ID (if unset request the gateway version numbers)
         """
         with closing(self.gateway.open()) as gateway:
-            print "firmware:", gateway.get_firmware_version(zigbee_id=arg)
-            print "hardware:", gateway.get_hardware_version(zigbee_id=arg)
+            print("firmware: %s", gateway.get_firmware_version(zigbee_id=arg))
+            print("hardware: %s", gateway.get_hardware_version(zigbee_id=arg))
 
     @handle_exception
     def do_drv_read(self, arg):
@@ -143,7 +153,7 @@ class PyZigBeeShell(cmd.Cmd):
 
         Optional arg: number of bytes to read
         """
-        print self.gateway.driver.read(to_read=arg)
+        print(self.gateway.driver.read(to_read=arg))
 
     @handle_exception
     def do_drv_write(self, arg):
@@ -184,7 +194,7 @@ def get_conf_filename(options):
         if os.path.exists(options.conf_filename):
             conf_filename = options.conf_filename
         else:
-            print "Error: %s does not exist" % options.conf_filename
+            print("Error: %s does not exist", options.conf_filename)
             sys.exit(1)
     return conf_filename
 
@@ -212,13 +222,13 @@ def main():
             sys.exit(0)
         shell.cmdloop()
     except PyZigBeeException as error:
-        print "Error:", error
+        print("Error: %s", error)
         sys.exit(2)
     except KeyboardInterrupt:
-        print "Bye!"
+        print("Bye!")
         sys.exit(0)
     except Exception as error:
-        print "Uncaught error:", error
+        print("Uncaught error: %s", error)
         sys.exit(1)
 
 if __name__ == '__main__':
