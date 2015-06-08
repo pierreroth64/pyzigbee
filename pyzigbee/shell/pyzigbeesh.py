@@ -222,13 +222,13 @@ def main():
             sys.exit(0)
         shell.cmdloop()
     except PyZigBeeException as error:
-        print "Error:", error
+        print "Error: %s" % error
         sys.exit(2)
     except KeyboardInterrupt:
         print "Bye!"
         sys.exit(0)
     except Exception as error:
-        print "Uncaught error:", error
+        print "Uncaught error: %s" % error
         sys.exit(1)
 
 if __name__ == '__main__':
