@@ -6,6 +6,7 @@
 
 import json
 import logging
+from pyzigbee.core.log import NullHandler
 from pyzigbee.core.exceptions import PyZigBeeBadFormat
 
 
@@ -18,6 +19,7 @@ class JSONConfReader(object):
         self.conf_filename = conf_filename
         self.conf = None
         self.logger = logging.getLogger(__name__)
+        self.logger.addHandler(NullHandler())
         try:
             with open(conf_filename, 'r') as conf_file:
                 self.conf = json.load(fp=conf_file, encoding='ascii')

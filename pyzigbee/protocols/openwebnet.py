@@ -6,9 +6,11 @@
 
 import re
 import logging
-from pyzigbee.protocols.baseprotocol import BaseProtocol
+from pyzigbee.core.log import NullHandler
 from pyzigbee.core.exceptions import PyZigBeeBadFormat
 from pyzigbee.core.exceptions import PyZigBeeBadArgument
+from pyzigbee.protocols.baseprotocol import BaseProtocol
+
 
 OWN_ACK = "*#*1##"
 OWN_NACK = "*#*0##"
@@ -21,6 +23,7 @@ class OWNProtocol(BaseProtocol):
 
     def __init__(self):
         self.logger = logging.getLogger(__name__)
+        self.logger.addHandler(NullHandler())
 
     def _build_where_field(self, zigbee_id=None):
         if zigbee_id is None:

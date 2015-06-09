@@ -6,6 +6,7 @@
 
 import time
 import logging
+from pyzigbee.core.log import NullHandler
 from pyzigbee.core.exceptions import *
 from pyzigbee.drivers.basedriver import BaseDriver
 from pyzigbee.protocols.baseprotocol import BaseProtocol
@@ -21,6 +22,7 @@ class Gateway(object):
         self.set_protocol(protocol)
         self.description = description
         self.logger = logging.getLogger(__name__)
+        self.logger.addHandler(NullHandler())
 
     def set_driver(self, driver):
         if isinstance(driver, BaseDriver):

@@ -7,7 +7,7 @@
 import serial
 import logging
 import re
-
+from pyzigbee.core.log import NullHandler
 from pyzigbee.core.exceptions import PyZigBeeFailed, PyZigBeeTimedOut
 from pyzigbee.drivers.basedriver import BaseDriver
 
@@ -32,6 +32,7 @@ class SerialDriver(BaseDriver):
         self.parity = self._get_or_default(kwargs, 'parity', 'N')
         self.dev = None
         self.logger = logging.getLogger(__name__)
+        self.logger.addHandler(NullHandler())
 
     def _get_or_default(self, params, key, default=None):
         return params[key] if key in params.keys() else default
