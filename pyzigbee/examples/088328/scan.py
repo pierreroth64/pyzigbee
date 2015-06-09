@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
 from contextlib import closing
 from pyzigbee.gateways.factory import GatewayFactory
 
@@ -18,7 +19,7 @@ def scan():
     with closing(gateway.open()) as gateway:
         ids = gateway.scan()
 
-    print "Zigbee devices on the network:", ids
+    print("Zigbee devices on the network:", ids)
 
 if __name__ == '__main__':
     scan()

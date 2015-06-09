@@ -4,6 +4,7 @@
 # Copyright (C) 2015 Legrand France
 # All rights reserved
 
+from __future__ import print_function
 import cmd
 import sys
 import logging
@@ -29,7 +30,7 @@ def handle_exception(func):
         try:
             return func(*args, **kwargs)
         except PyZigBeeException as error:
-            print("Error: %s", error.msg)
+            print("Error: %s" % error.msg)
     inner.__doc__ = func.__doc__
     return inner
 
@@ -143,8 +144,8 @@ class PyZigBeeShell(cmd.Cmd):
         Optional arg: zigbee ID (if unset request the gateway version numbers)
         """
         with closing(self.gateway.open()) as gateway:
-            print("firmware: %s", gateway.get_firmware_version(zigbee_id=arg))
-            print("hardware: %s", gateway.get_hardware_version(zigbee_id=arg))
+            print("firmware:", gateway.get_firmware_version(zigbee_id=arg))
+            print("hardware:", gateway.get_hardware_version(zigbee_id=arg))
 
     @handle_exception
     def do_drv_read(self, arg):
@@ -194,7 +195,7 @@ def get_conf_filename(options):
         if os.path.exists(options.conf_filename):
             conf_filename = options.conf_filename
         else:
-            print("Error: %s does not exist", options.conf_filename)
+            print("Error: %s does not exist" % options.conf_filename)
             sys.exit(1)
     return conf_filename
 
@@ -222,13 +223,13 @@ def main():
             sys.exit(0)
         shell.cmdloop()
     except PyZigBeeException as error:
-        print("Error: %s", error)
+        print("Error: %s" % error)
         sys.exit(2)
     except KeyboardInterrupt:
         print("Bye!")
         sys.exit(0)
     except Exception as error:
-        print("Uncaught error: %s", error)
+        print("Uncaught error: %s" % error)
         sys.exit(1)
 
 if __name__ == '__main__':
