@@ -27,6 +27,8 @@ To run the full test suite, from the top directory:
 Documentation
 -------------
 
+Latest documentattion can be found here: http://pyzigbee.readthedocs.org/en/latest/
+
 To build the documentation:
 
     make doc
