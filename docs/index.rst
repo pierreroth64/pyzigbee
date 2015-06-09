@@ -13,11 +13,10 @@ Version: |release|
 
    intro
    install
+   setup
    example
    shell
    arch
-   hwsetup
-
 
 Indices and tables
 ==================
