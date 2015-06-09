@@ -29,6 +29,8 @@ Documentation
 
 Latest documentattion can be found here: http://pyzigbee.readthedocs.org/en/latest/
 
+Other formats and older versions: https://readthedocs.org/projects/pyzigbee/
+
 To build the documentation:
 
     make doc
