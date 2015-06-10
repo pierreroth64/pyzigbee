@@ -4,8 +4,6 @@
 # Copyright (C) 2015 Legrand France
 # All rights reserved
 
-import json
-
 from pyzigbee.core.exceptions import PyZigBeeBadArgument
 from pyzigbee.core.exceptions import PyZigBeeBadFormat
 from pyzigbee.protocols.openwebnet import OWNProtocol
@@ -41,7 +39,7 @@ class GatewayFactory(object):
     def _sanitize_ref(self, ref):
         return ref.replace(" ", "")
 
-    def create_gateway(self, ref, conf_filename=None):
+    def create_gateway(self, ref):
         ref = self._sanitize_ref(ref)
         if ref in SUPPORTED_GW.keys():
             try:

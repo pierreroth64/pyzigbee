@@ -7,7 +7,9 @@
 import time
 import logging
 from pyzigbee.core.log import NullHandler
-from pyzigbee.core.exceptions import *
+from pyzigbee.core.exceptions import PyZigBeeBadArgument
+from pyzigbee.core.exceptions import PyZigBeeFailed
+from pyzigbee.core.exceptions import PyZigBeeException
 from pyzigbee.drivers.basedriver import BaseDriver
 from pyzigbee.protocols.baseprotocol import BaseProtocol
 
@@ -109,8 +111,8 @@ class Gateway(object):
                 self.logger.debug("device ID at index %d: %s", i, dev_id)
                 dev_ids.append(dev_id)
             except PyZigBeeException as error:
-                self.logger.warn("failed to get device ID at index %d (%s)"
-                                 % (i, error))
+                self.logger.warn("failed to get device ID at index %d (%s)",
+                                 i, error)
         return dev_ids
 
     def receive(self, timeout=None):

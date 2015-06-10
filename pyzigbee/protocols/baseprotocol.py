@@ -60,12 +60,12 @@ class BaseProtocol(object):
         raise PyZigBeeNotSupported("decode_dev_id: This method must be"
                                    " implemented by your protocol")
 
-    def encode_get_firmware_version(self, zibgee_id=None):
+    def encode_get_firmware_version(self, zigbee_id=None):
         zigbee_id = zigbee_id
         raise PyZigBeeNotSupported("encode_get_firmware_version: This method must be"
                                    " implemented by your protocol")
 
-    def encode_get_hardware_version(self, zibgee_id=None):
+    def encode_get_hardware_version(self, zigbee_id=None):
         zigbee_id = zigbee_id
         raise PyZigBeeNotSupported("encode_get_hardware_version: This method must be"
                                    " implemented by your protocol")
