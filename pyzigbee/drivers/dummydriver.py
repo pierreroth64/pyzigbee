@@ -4,7 +4,6 @@
 # Copyright (C) 2015 Legrand France
 # All rights reserved
 
-from pyzigbee.core.exceptions import PyZigBeeDenied
 from pyzigbee.drivers.basedriver import BaseDriver
 
 

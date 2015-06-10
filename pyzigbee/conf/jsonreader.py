@@ -26,8 +26,8 @@ class JSONConfReader(object):
                 for ref in self.conf.keys():
                     self._check_format(self.conf[ref])
         except ValueError as error:
-            raise PyZigBeeBadFormat("Could not load JSON data from: %s"
-                                         % conf_filename)
+            raise PyZigBeeBadFormat("Could not load JSON data from: %s (%s)"
+                                    % (conf_filename, error))
 
     def _check_format(self, conf):
         if "driver" not in conf.keys() or "args" not in conf["driver"].keys():

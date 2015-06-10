@@ -19,6 +19,8 @@ class BaseProtocol(object):
         """
         Handler called on error when expected data differs from received one
         """
+        expected = expected
+        received = received
         raise PyZigBeeNotSupported("handle_error: This method must be"
                                    " implemented by your protocol")
 
@@ -26,6 +28,7 @@ class BaseProtocol(object):
         """
         Handler called to check answer
         """
+        answer = answer
         raise PyZigBeeNotSupported("check_answer: This method must be"
                                    " implemented by your protocol")
 
@@ -38,45 +41,58 @@ class BaseProtocol(object):
                                    " implemented by your protocol")
 
     def encode_get_dev_number(self, delay=5):
+        delay = delay
         raise PyZigBeeNotSupported("encode_get_dev_number: This method must be"
                                    " implemented by your protocol")
 
     def decode_dev_number(self, data):
+        data = data
         raise PyZigBeeNotSupported("decode_dev_number: This method must be"
                                    " implemented by your protocol")
 
     def encode_get_dev_id(self, dev_index):
+        dev_index = dev_index
         raise PyZigBeeNotSupported("encode_get_dev_id: This method must be"
                                    " implemented by your protocol")
 
     def decode_dev_id(self, data):
+        data = data
         raise PyZigBeeNotSupported("decode_dev_id: This method must be"
                                    " implemented by your protocol")
 
     def encode_get_firmware_version(self, zibgee_id=None):
+        zigbee_id = zigbee_id
         raise PyZigBeeNotSupported("encode_get_firmware_version: This method must be"
                                    " implemented by your protocol")
 
     def encode_get_hardware_version(self, zibgee_id=None):
+        zigbee_id = zigbee_id
         raise PyZigBeeNotSupported("encode_get_hardware_version: This method must be"
                                    " implemented by your protocol")
 
     def decode_firmware_version(self, data, zigbee_id=None):
+        data = data
+        zigbee_id = zigbee_id
         raise PyZigBeeNotSupported("decode_firmware_version: This method must be"
                                    " implemented by your protocol")
 
     def decode_hardware_version(self, data, zigbee_id=None):
+        data = data
+        zigbee_id = zigbee_id
         raise PyZigBeeNotSupported("decode_hardware_version: This method must be"
                                    " implemented by your protocol")
 
     def decode_binding_id(self, data):
+        data = data
         raise PyZigBeeNotSupported("decode_binding_id: This method must be"
                                    " implemented by your protocol")
 
     def encode_binding_request(self, zigbee_id):
+        zigbee_id = zigbee_id
         raise PyZigBeeNotSupported("encode_binding_request: This method must be"
                                    " implemented by your protocol")
 
     def encode_unbinding_request(self, zigbee_id):
+        zigbee_id = zigbee_id
         raise PyZigBeeNotSupported("encode_unbinding_request: This method must be"
                                    " implemented by your protocol")

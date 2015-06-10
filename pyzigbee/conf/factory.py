@@ -32,7 +32,7 @@ class ConfReaderFactory(object):
         extension = os.path.splitext(conf_filename)[1]
         try:
             return SUPPORTED_FORMATS[extension](conf_filename)
-        except KeyError as error:
+        except KeyError:
             raise PyZigBeeBadFormat("%s extension for configuration file"
-                                         " is not supported (supported ones: %s)"
-                                         % (extension, SUPPORTED_FORMATS.keys()))
+                                    " is not supported (supported ones: %s)"
+                                    % (extension, SUPPORTED_FORMATS.keys()))

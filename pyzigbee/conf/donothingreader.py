@@ -14,4 +14,5 @@ class DoNothingConfReader(object):
         pass
 
     def override_args_with_conf(self, ref, args):
+        ref = ref
         return args

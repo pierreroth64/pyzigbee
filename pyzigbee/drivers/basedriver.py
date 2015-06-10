@@ -27,10 +27,13 @@ class BaseDriver(object):
                                    " implemented by your driver")
 
     def on_write(self, data):
+        data = data
         raise PyZigBeeNotSupported("on_write: This method must be"
                                    " implemented by your driver")
 
     def on_read(self, to_read, stop_on):
+        to_read = to_read
+        stop_on = stop_on
         raise PyZigBeeNotSupported("on_read: This method must be"
                                    " implemented by your driver")
 
@@ -39,6 +42,7 @@ class BaseDriver(object):
                                    " implemented by your driver")
 
     def set_unblocking(self, timeout=0):
+        timeout = timeout
         raise PyZigBeeNotSupported("set_unblocking: This method must be"
                                    " implemented by your driver")
 
