@@ -9,4 +9,4 @@ pyzigbee is a library that enables to talk to
 Legrand zigbee devices through gateways
 """
 
-__version__ = "0.1.1"
+__version__ = "0.1.2"
