@@ -8,7 +8,9 @@ import serial
 import logging
 import re
 from pyzigbee.core.log import NullHandler
-from pyzigbee.core.exceptions import PyZigBeeFailed, PyZigBeeTimedOut
+from pyzigbee.core.exceptions import PyZigBeeFailed
+from pyzigbee.core.exceptions import PyZigBeeTimedOut
+from pyzigbee.core.exceptions import PyZigBeeBadFormat
 from pyzigbee.drivers.basedriver import BaseDriver
 
 READ_TIMEOUT = 3

@@ -4,7 +4,10 @@
 # Copyright (C) 2015 Legrand France
 # All rights reserved
 
-from pyzigbee.core.exceptions import PyZigBeeDenied, PyZigBeeFailed, PyZigBeeBadFormat
+from pyzigbee.core.exceptions import PyZigBeeDenied
+from pyzigbee.core.exceptions import PyZigBeeFailed
+from pyzigbee.core.exceptions import PyZigBeeBadFormat
+from pyzigbee.core.exceptions import PyZigBeeNotSupported
 
 
 class BaseDriver(object):

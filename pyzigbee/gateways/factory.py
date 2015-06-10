@@ -7,6 +7,7 @@
 import json
 
 from pyzigbee.core.exceptions import PyZigBeeBadArgument
+from pyzigbee.core.exceptions import PyZigBeeBadFormat
 from pyzigbee.protocols.openwebnet import OWNProtocol
 from pyzigbee.drivers.serialdriver import SerialDriver
 from pyzigbee.gateways.gateway import Gateway
