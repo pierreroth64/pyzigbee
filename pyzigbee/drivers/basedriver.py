@@ -96,7 +96,7 @@ class BaseDriver(object):
             timeout = int(timeout)
         except ValueError as error:
             raise PyZigBeeBadFormat("timeout passed to"
-                                    "set_unblocking_mode must be an integer (%s)"
-                                    % error)
+                                    " set_unblocking_mode must be an integer (%s)"
+                                    % error)
 
         self.set_unblocking(timeout=timeout)
