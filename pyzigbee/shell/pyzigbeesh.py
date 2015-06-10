@@ -215,6 +215,7 @@ def main():
                       default=False,
                       help="only checks that shell app works correctly")
     (options, args) = parser.parse_args()
+    args = args
     if options.debug_level is not None:
         level = int(options.debug_level)
     else:

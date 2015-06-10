@@ -16,6 +16,7 @@ class BaseDriver(object):
     """
 
     def __init__(self, **kwargs):
+        kwargs = kwargs
         self.is_open = False
 
     def on_open(self):
