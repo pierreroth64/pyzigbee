@@ -22,3 +22,6 @@ class TestFactory:
 
     def test_unsupported(self):
         assert_raises(PyZigBeeBadArgument, GatewayFactory().create_gateway, "0000000")
+
+    def test_get_supported(self):
+        assert_true("088328" in GatewayFactory.get_supported_refs())
