@@ -54,7 +54,8 @@ class GatewayFactory(object):
         else:
             raise PyZigBeeBadArgument("%s is not supported" % ref)
 
-    def get_supported_refs(self):
+    @classmethod
+    def get_supported_refs():
         supported = {}
         for gw_k, gw_v in SUPPORTED_GW.items():
             supported[gw_k] = gw_v['description']

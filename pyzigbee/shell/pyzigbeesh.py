@@ -173,6 +173,7 @@ class PyZigBeeShell(cmd.Cmd):
         """
         Open the gateway driver
         """
+        arg = arg
         self.gateway.driver.open()
 
     @handle_exception
@@ -180,6 +181,7 @@ class PyZigBeeShell(cmd.Cmd):
         """
         Close the gateway driver
         """
+        arg = arg
         self.gateway.driver.close()
 
 
