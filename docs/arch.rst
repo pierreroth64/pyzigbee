@@ -60,13 +60,18 @@ The client code (application side) only relies on Gateway objects which are crea
 Interfaces
 ^^^^^^^^^^
 
-A *Gateway* is composed of two objects: a *Driver* and a *Protocol* which are interfaces. Real drivers and protocols must implement those interfaces.
+A *Gateway* is composed of two objects: a *Driver* and a *Protocol* which are interfaces. Real drivers and protocols must implement those interfaces. 
 
 .. module :: pyzigbee.drivers.basedriver
 .. autoclass:: BaseDriver
 
 .. module :: pyzigbee.protocols.baseprotocol
 .. autoclass:: BaseProtocol
+
+The *Gateway* is the abstraction on which rely client code. You may need to inherit from and overload some methods to implement your own gateway.
+
+.. module :: pyzigbee.gateways.gateway
+.. autoclass:: Gateway
 
 Some implementations
 ^^^^^^^^^^^^^^^^^^^^
