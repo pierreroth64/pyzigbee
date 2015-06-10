@@ -8,7 +8,6 @@ import re
 import logging
 from pyzigbee.core.log import NullHandler
 from pyzigbee.core.exceptions import PyZigBeeBadFormat
-from pyzigbee.core.exceptions import PyZigBeeBadArgument
 from pyzigbee.protocols.baseprotocol import BaseProtocol
 
 

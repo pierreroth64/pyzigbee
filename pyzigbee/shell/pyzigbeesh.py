@@ -64,6 +64,7 @@ class PyZigBeeShell(cmd.Cmd):
         """
         Clear screen
         """
+        arg = arg
         self.platform_srvc.clear()
 
     @handle_exception
@@ -71,6 +72,7 @@ class PyZigBeeShell(cmd.Cmd):
         """
         Print information about the current gateway
         """
+        arg = arg
         self.pp.pprint(self.gateway.get_info())
 
     @handle_exception
@@ -78,6 +80,7 @@ class PyZigBeeShell(cmd.Cmd):
         """
         Print list of currently supported gateways
         """
+        arg = arg
         self.pp.pprint(GatewayFactory.get_supported_refs())
 
     @handle_exception
@@ -101,10 +104,10 @@ class PyZigBeeShell(cmd.Cmd):
             arg = 5
 
         with closing(self.gateway.open()) as gateway:
-            ids = gateway.scan(delay=arg)
+            zigbee_ids = gateway.scan(delay=arg)
 
-        for id in ids:
-            print(id)
+        for zigbee_id in zigbee_ids:
+            print(zigbee_id)
 
     @handle_exception
     def do_receive(self, arg):

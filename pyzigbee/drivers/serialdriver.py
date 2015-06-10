@@ -116,4 +116,4 @@ class SerialDriver(BaseDriver):
                 self.logger.debug("serial port %s already set to non-blocking mode",
                                   self.port)
         except ValueError as error:
-            raise PyZigBeeBadFormat("timeout must be an integer")
+            raise PyZigBeeBadFormat("timeout must be an integer (%s)" % error)
