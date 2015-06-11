@@ -34,6 +34,8 @@ check-shell:
 
 check: test doc pep8 check-shell
 
+python: test pep8
+
 clean: clean-bytecode clean-doc clean-egg clean-build
 
 clean-bytecode:

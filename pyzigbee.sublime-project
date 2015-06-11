@@ -1,0 +1,23 @@
+{
+	"folders":
+	[
+		{
+			"path": "."
+		}
+	],
+    "build_systems":
+    [
+        {
+            "name": "python",
+            "cmd": ["make", "python"],
+            "selector": "source.python",
+            "working_dir": "${folder}"
+        },
+        {
+            "name": "doc",
+            "cmd": ["make", "doc"],
+            "selector": "text.restructuredtext",
+            "working_dir": "${folder}"
+        }
+    ]
+}
