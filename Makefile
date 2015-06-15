@@ -5,7 +5,7 @@
 
 test:
 	@echo "Running tests..."
-	PYTHONPATH=. nosetests -v
+	PYTHONPATH=. nosetests -v --with-coverage --cover-package=pyzigbee --cover-erase
 	@echo "Done."
 
 doc:
