@@ -43,9 +43,10 @@ class PyZigBeeShell(cmd.Cmd):
 
     intro = "###################################\n" \
             "# Welcome to the PyZigBee shell!  #\n" \
-            "#       (pyzigbee lib: %s)       #\n" \
+            "#       (pyzigbee lib: %s)%s#\n" \
             "# Type help or ? to list commands.#\n" \
-            "###################################\n" % __version__
+            "###################################\n" \
+            % (__version__, (10 - len(__version__)) * " ")
     prompt = '(pyzigbeesh) '
 
     def __init__(self, conf_filename=None):
