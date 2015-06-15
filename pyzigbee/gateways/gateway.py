@@ -108,7 +108,7 @@ class Gateway(object):
                 sequence = self.protocol.encode_get_dev_id(dev_index=i)
                 answer = self._get_answer(sequence)
                 dev_id = self.protocol.decode_dev_id(answer)
-                self.logger.debug("device ID at index %d: %s", i, dev_id)
+                self.logger.info("device ID at index %d: %s", i, dev_id)
                 dev_ids.append(dev_id)
             except PyZigBeeException as error:
                 self.logger.warn("failed to get device ID at index %d (%s)",
