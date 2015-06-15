@@ -3,9 +3,15 @@
 
 # Simple makefile for pyzigbee development
 
+TEST_ARGS = -v
+ifeq ($(WITH_COVERAGE), yes)
+	TEST_ARGS += --with-coverage --cover-package=pyzigbee --cover-erase
+endif
+
+
 test:
 	@echo "Running tests..."
-	PYTHONPATH=. nosetests -v --with-coverage --cover-package=pyzigbee --cover-erase
+	PYTHONPATH=. nosetests $(TEST_ARGS)
 	@echo "Done."
 
 doc:
