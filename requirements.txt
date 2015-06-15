@@ -2,3 +2,4 @@ nose
 sphinx
 wheel
 pep8
+coveralls
