@@ -37,7 +37,6 @@ def handle_exception(func):
 
 class PyZigBeeShell(cmd.Cmd):
     """
-
     PyZigBeeShell is the Cmd class of the pyzigbee shell app
     """
 
