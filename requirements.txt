@@ -2,4 +2,4 @@ nose
 sphinx
 wheel
 pep8
-python-coveralls
+coveralls
