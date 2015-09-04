@@ -145,7 +145,7 @@ class OWNProtocol(BaseProtocol):
             self.logger.debug("binding ID: %s", binding_id)
             return binding_id
         else:
-            self._raise_format_error("could not extract bindign ID from frame", data)
+            self._raise_format_error("could not extract binding ID from frame", data)
 
     def encode_binding_request(self, zigbee_id):
         """
