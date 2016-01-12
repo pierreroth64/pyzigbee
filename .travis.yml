@@ -10,3 +10,4 @@ script:
   - make WITH_COVERAGE=yes check
 after_success:
   - coveralls
+sudo: false
