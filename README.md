@@ -1,6 +1,6 @@
 pyzigbee is a library that lets to talk to Legrand zigbee devices through gateways
 
-[![Build Status](https://travis-ci.org/pierreroth/pyzigbee.svg?branch=master)](https://travis-ci.org/pierreroth/pyzigbee) [![Build status](https://ci.appveyor.com/api/projects/status/pxiciuj8ikefmx1b/branch/master?svg=true)](https://ci.appveyor.com/project/pierreroth/pyzigbee) [![Build status](https://readthedocs.org/projects/pyzigbee/badge/)](http://pyzigbee.readthedocs.org/en/latest/) [![Code Health](https://landscape.io/github/pierreroth/pyzigbee/master/landscape.svg?style=flat)](https://landscape.io/github/pierreroth/pyzigbee/master) [![Coverage Status](https://coveralls.io/repos/pierreroth/pyzigbee/badge.svg?branch=master)](https://coveralls.io/r/pierreroth/pyzigbee?branch=master)
+[![Build Status](https://travis-ci.org/pierreroth64/pyzigbee.svg?branch=master)](https://travis-ci.org/pierreroth64/pyzigbee) [![Build status](https://ci.appveyor.com/api/projects/status/pxiciuj8ikefmx1b/branch/master?svg=true)](https://ci.appveyor.com/project/pierreroth64/pyzigbee) [![Build status](https://readthedocs.org/projects/pyzigbee/badge/)](http://pyzigbee.readthedocs.org/en/latest/) [![Code Health](https://landscape.io/github/pierreroth64/pyzigbee/master/landscape.svg?style=flat)](https://landscape.io/github/pierreroth64/pyzigbee/master) [![Coverage Status](https://coveralls.io/repos/pierreroth64/pyzigbee/badge.svg?branch=master)](https://coveralls.io/r/pierreroth64/pyzigbee?branch=master)
 
 
 Installation
